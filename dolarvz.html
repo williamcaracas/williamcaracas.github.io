@@ -375,6 +375,8 @@ async function loadRates() {
   const hm = now.toLocaleTimeString('es-VE', {hour:'2-digit',minute:'2-digit'});
   pill.className = 'live-pill';
   timeEl.textContent = hm;
+  const oldTag = pill.querySelector('.demo-badge');
+  if (oldTag) oldTag.remove();
   if (isDemo) {
     const tag = document.createElement('span');
     tag.className = 'demo-badge'; tag.textContent = 'demo';

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DólarVZ — Tasas en tiempo real</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #0c0c0c;
+      --bg2:      #161616;
+      --bg3:      #1f1f1f;
+      --bg4:      #282828;
+      --border:   rgba(255,255,255,0.06);
+      --border2:  rgba(255,255,255,0.12);
+      --text:     #ededed;
+      --text2:    #777;
+      --text3:    #444;
+      --green:    #1fba88;
+      --green-d:  rgba(31,186,136,0.12);
+      --blue:     #4a9eff;
+      --blue-d:   rgba(74,158,255,0.12);
+      --purple:   #9b87f5;
+      --purple-d: rgba(155,135,245,0.12);
+      --amber:    #f5a623;
+      --amber-d:  rgba(245,166,35,0.12);
+      --red:      #ff5e57;
+      --red-d:    rgba(255,94,87,0.10);
+      --mono:     'JetBrains Mono', monospace;
+      --sans:     'Sora', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* subtle grid texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .logo {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      background: var(--green-d);
+      border: 0.5px solid rgba(31,186,136,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono);
+      font-size: 14px; font-weight: 500;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .header-info { flex: 1; }
+    .app-title { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; }
+    .app-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
+
+    .header-right { display: flex; align-items: center; gap: 10px; }
+
+    .live-pill {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--green-d);
+      border: 0.5px solid rgba(31,186,136,0.2);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 11px; color: var(--green);
+      font-family: var(--mono);
+    }
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; } 50% { opacity: 0.3; }
+    }
+    .live-pill.loading .live-dot { background: var(--amber); animation: none; }
+
+    .refresh-btn {
+      background: var(--bg3);
+      border: 0.5px solid var(--border2);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px; font-family: var(--sans);
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .refresh-btn:hover { color: var(--text); border-color: var(--border2); background: var(--bg4); }
+
+    /* ── CARDS ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+      margin-bottom: 1.25rem;
+    }
+
+    .card {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 1.1rem 1.2rem 1rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .card:hover { border-color: var(--border2); }
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      border-radius: 16px 16px 0 0;
+    }
+    .card.accent-blue::after  { background: var(--blue); }
+    .card.accent-purple::after { background: var(--purple); }
+    .card.accent-green::after { background: var(--green); }
+    .card.accent-amber::after { background: var(--amber); }
+
+    .card-icon {
+      font-size: 11px; font-family: var(--mono);
+      color: var(--text3);
+      margin-bottom: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .card-value {
+      font-size: 24px; font-weight: 600;
+      font-family: var(--mono);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: var(--text);
+    }
+    .card-unit { font-size: 13px; color: var(--text2); font-weight: 400; margin-left: 3px; }
+    .card-change { font-size: 12px; margin-top: 8px; font-family: var(--mono); }
+    .card-badge {
+      display: inline-block; font-size: 10px;
+      padding: 3px 9px; border-radius: 20px;
+      margin-top: 10px; font-weight: 500;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .badge-blue   { background: var(--blue-d);   color: var(--blue);   border: 0.5px solid rgba(74,158,255,0.2); }
+    .badge-purple { background: var(--purple-d); color: var(--purple); border: 0.5px solid rgba(155,135,245,0.2); }
+    .badge-green  { background: var(--green-d);  color: var(--green);  border: 0.5px solid rgba(31,186,136,0.2); }
+    .badge-amber  { background: var(--amber-d);  color: var(--amber);  border: 0.5px solid rgba(245,166,35,0.2); }
+    .up   { color: var(--green); }
+    .down { color: var(--red); }
+    .flat { color: var(--text2); }
+
+    /* ── SPREAD ── */
+    .spread-row {
+      display: flex; gap: 10px;
+      margin-bottom: 1.25rem;
+    }
+    .spread-card {
+      flex: 1;
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem 1.25rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .spread-label { font-size: 12px; color: var(--text2); }
+    .spread-sub   { font-size: 11px; color: var(--text3); margin-top: 3px; }
+    .spread-pct   { font-size: 28px; font-weight: 600; font-family: var(--mono); color: var(--amber); letter-spacing: -0.03em; }
+    .spread-diff  { font-size: 12px; color: var(--text2); margin-top: 2px; text-align: right; font-family: var(--mono); }
+
+    /* ── SECTIONS ── */
+    .section {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: 11px; color: var(--text3);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 1.1rem;
+      font-family: var(--mono);
+    }
+
+    /* ── CALC ── */
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    @media (max-width: 500px) { .calc-grid { grid-template-columns: 1fr 1fr; } }
+    .calc-grid input, .calc-grid select {
+      background: var(--bg3);
+      border: 0.5px solid var(--border2);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 14px; font-family: var(--sans);
+      color: var(--text);
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+    .calc-grid input:focus, .calc-grid select:focus { border-color: var(--blue); }
+    .calc-grid select option { background: #1f1f1f; }
+    .calc-result {
+      background: var(--bg3);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .calc-result-label { font-size: 12px; color: var(--text2); }
+    .calc-result-val { font-size: 24px; font-weight: 600; font-family: var(--mono); color: var(--text); letter-spacing: -0.02em; }
+
+    /* ── BARS ── */
+    .bars { display: flex; flex-direction: column; gap: 14px; }
+    .bar-row { display: flex; align-items: center; gap: 12px; }
+    .bar-label { font-size: 12px; color: var(--text2); min-width: 90px; font-family: var(--mono); }
+    .bar-track { flex: 1; background: var(--bg3); border-radius: 6px; height: 8px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 6px; transition: width 0.7s cubic-bezier(0.4,0,0.2,1); }
+    .bar-val   { font-size: 13px; color: var(--text); min-width: 100px; text-align: right; font-family: var(--mono); }
+
+    /* ── TABLE ── */
+    .rates-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .rates-table th {
+      color: var(--text3); font-weight: 400;
+      padding: 6px 0; border-bottom: 0.5px solid var(--border);
+      font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+      font-family: var(--mono);
+    }
+    .rates-table th:last-child, .rates-table td:last-child { text-align: right; }
+    .rates-table td { padding: 12px 0; border-bottom: 0.5px solid var(--border); color: var(--text); }
+    .rates-table tr:last-child td { border-bottom: none; }
+    .rates-table .src { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+
+    /* ── FOOTER ── */
+    .footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--text3); font-family: var(--mono); }
+
+    /* ── LOADING / ERROR ── */
+    .loader { text-align: center; padding: 3rem; color: var(--text2); font-size: 14px; }
+    .loader span { display: inline-block; animation: blink 1.2s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+    .error-msg { text-align: center; padding: 1.5rem; color: var(--red); font-size: 13px; }
+
+    .demo-badge {
+      display: inline-block; font-size: 10px;
+      background: var(--amber-d); color: var(--amber);
+      border: 0.5px solid rgba(245,166,35,0.2);
+      border-radius: 20px; padding: 2px 8px;
+      margin-left: 6px; font-family: var(--mono);
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="logo">Bs</div>
+    <div class="header-info">
+      <div class="app-title">DólarVZ</div>
+      <div class="app-sub">Tasas en tiempo real · Venezuela</div>
+    </div>
+    <div class="header-right">
+      <div class="live-pill loading" id="live-pill">
+        <div class="live-dot"></div>
+        <span id="update-time">Cargando</span>
+      </div>
+      <button class="refresh-btn" onclick="loadRates()">↺ Actualizar</button>
+    </div>
+  </div>
+
+  <div id="main-content">
+    <div class="loader">Consultando APIs<span>...</span></div>
+  </div>
+
+  <div class="footer">Datos: ve.dolarapi.com · Actualización automática cada 5 min</div>
+</div>
+
+<script>
+const APIS = [
+  'https://ve.dolarapi.com/v1/dolares',
+  'https://pydolarve.org/api/v2/dollar?monitor=all'
+];
+
+let ratesData = null;
+
+async function tryFetch(url) {
+  const r = await fetch(url, { signal: AbortSignal.timeout(7000) });
+  if (!r.ok) throw new Error('bad');
+  return r.json();
+}
+
+function parseVeDolar(data) {
+  const find = (keys) => data.find(d =>
+    keys.some(k => (d.nombre || d.slug || d.title || '').toLowerCase().includes(k))
+  );
+  const bcvUsd = find(['bcv','oficial usd','dolar bcv','usd bcv']);
+  const binance = find(['binance','cripto','crypto','usdt']);
+  const eur     = find(['euro']);
+  if (!bcvUsd) return null;
+  return {
+    bcvUsd:    parseFloat(bcvUsd.promedio || bcvUsd.precio || 0),
+    bcvEur:    eur ? parseFloat(eur.promedio || eur.precio || 0) : null,
+    binance:   binance ? parseFloat(binance.promedio || binance.precio || 0) : null,
+    bcvUsdChg: parseFloat(bcvUsd.variacion || 0),
+    binanceChg: parseFloat(binance?.variacion || 0),
+    eurChg:    parseFloat(eur?.variacion || 0),
+  };
+}
+
+async function loadRates() {
+  const pill = document.getElementById('live-pill');
+  const timeEl = document.getElementById('update-time');
+  pill.className = 'live-pill loading';
+  timeEl.textContent = 'Actualizando';
+
+  let parsed = null;
+  try {
+    const raw = await tryFetch(APIS[0]);
+    if (Array.isArray(raw)) parsed = parseVeDolar(raw);
+  } catch(e) {}
+
+  if (!parsed) {
+    try {
+      const raw = await tryFetch(APIS[1]);
+      const arr = raw?.monitors
+        ? Object.values(raw.monitors).map(v => ({...v, nombre: v.title || v.key || ''}))
+        : null;
+      if (arr) parsed = parseVeDolar(arr);
+    } catch(e) {}
+  }
+
+  const isDemo = !parsed;
+  if (isDemo) {
+    parsed = { bcvUsd: 474.06, bcvEur: 524.80, binance: 657.50, bcvUsdChg: 0.04, binanceChg: -0.59, eurChg: 0.10 };
+  }
+
+  ratesData = parsed;
+  renderDashboard(parsed, isDemo);
+
+  const now = new Date();
+  const hm = now.toLocaleTimeString('es-VE', {hour:'2-digit',minute:'2-digit'});
+  pill.className = 'live-pill';
+  timeEl.textContent = hm;
+  if (isDemo) {
+    const tag = document.createElement('span');
+    tag.className = 'demo-badge'; tag.textContent = 'demo';
+    timeEl.after(tag);
+  }
+}
+
+const fmt  = (n, dec=2) => n != null ? n.toLocaleString('es-VE', {minimumFractionDigits: dec, maximumFractionDigits: 4}) : '—';
+const cls  = v => v > 0 ? 'up' : v < 0 ? 'down' : 'flat';
+const arrow= v => v > 0 ? '▲ ' : v < 0 ? '▼ ' : '';
+
+function renderDashboard(d, isDemo) {
+  const spread    = d.binance ? ((d.binance - d.bcvUsd) / d.bcvUsd * 100) : null;
+  const spreadDif = d.binance ? (d.binance - d.bcvUsd) : null;
+  const avg       = d.binance ? (d.bcvUsd * 0.5 + d.binance * 0.5) : d.bcvUsd;
+  const maxRate   = Math.max(d.bcvUsd, d.bcvEur||0, d.binance||0, avg);
+
+  document.getElementById('main-content').innerHTML = `
+
+    <div class="cards-grid">
+      <div class="card accent-blue">
+        <div class="card-icon">USD · BCV</div>
+        <div class="card-value">${fmt(d.bcvUsd)}<span class="card-unit">Bs</span></div>
+        <div class="card-change ${cls(d.bcvUsdChg)}">${arrow(d.bcvUsdChg)}${Math.abs(d.bcvUsdChg).toFixed(2)}%</div>
+        <span class="card-badge badge-blue">Oficial</span>
+      </div>
+
+      ${d.bcvEur ? `<div class="card accent-purple">
+        <div class="card-icon">EUR · BCV</div>
+        <div class="card-value">${fmt(d.bcvEur)}<span class="card-unit">Bs</span></div>
+        <div class="card-change ${cls(d.eurChg)}">${arrow(d.eurChg)}${Math.abs(d.eurChg).toFixed(2)}%</div>
+        <span class="card-badge badge-purple">Oficial</span>
+      </div>` : ''}
+
+      ${d.binance ? `<div class="card accent-green">
+        <div class="card-icon">USDT · Binance</div>
+        <div class="card-value">${fmt(d.binance)}<span class="card-unit">Bs</span></div>
+        <div class="card-change ${cls(d.binanceChg)}">${arrow(d.binanceChg)}${Math.abs(d.binanceChg).toFixed(2)}%</div>
+        <span class="card-badge badge-amber">Paralelo</span>
+      </div>` : ''}
+
+      <div class="card accent-amber">
+        <div class="card-icon">Promedio</div>
+        <div class="card-value">${fmt(avg)}<span class="card-unit">Bs</span></div>
+        <div class="card-change flat">ponderado</div>
+        <span class="card-badge badge-amber">Mixto</span>
+      </div>
+    </div>
+
+    ${spread != null ? `<div class="spread-row">
+      <div class="spread-card">
+        <div>
+          <div class="spread-label">Brecha BCV vs Binance</div>
+          <div class="spread-sub">paralelo sobre tasa oficial</div>
+        </div>
+        <div style="text-align:right">
+          <div class="spread-pct">+${spread.toFixed(2)}%</div>
+          <div class="spread-diff">Dif: ${fmt(spreadDif)} Bs</div>
+        </div>
+      </div>
+    </div>` : ''}
+
+    <div class="section">
+      <div class="section-title">Calculadora</div>
+      <div class="calc-grid">
+        <input type="number" id="calc-amount" value="100" min="0" oninput="recalc()" placeholder="Monto" />
+        <select id="calc-from" onchange="recalc()">
+          <option value="usd">USD → Bs</option>
+          <option value="eur">EUR → Bs</option>
+          <option value="bs_usd">Bs → USD</option>
+          <option value="bs_eur">Bs → EUR</option>
+        </select>
+        <select id="calc-rate" onchange="recalc()">
+          <option value="bcv">Tasa BCV</option>
+          ${d.binance ? '<option value="binance">Binance</option>' : ''}
+          <option value="avg">Promedio</option>
+        </select>
+      </div>
+      <div class="calc-result">
+        <span class="calc-result-label" id="calc-label">Resultado</span>
+        <span class="calc-result-val" id="calc-output">—</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Comparativa de tasas</div>
+      <div class="bars">
+        <div class="bar-row">
+          <span class="bar-label">BCV USD</span>
+          <div class="bar-track"><div class="bar-fill" style="width:${(d.bcvUsd/maxRate*100).toFixed(1)}%;background:var(--blue);"></div></div>
+          <span class="bar-val">${fmt(d.bcvUsd)} Bs</span>
+        </div>
+        ${d.bcvEur ? `<div class="bar-row">
+          <span class="bar-label">BCV EUR</span>
+          <div class="bar-track"><div class="bar-fill" style="width:${(d.bcvEur/maxRate*100).toFixed(1)}%;background:var(--purple);"></div></div>
+          <span class="bar-val">${fmt(d.bcvEur)} Bs</span>
+        </div>` : ''}
+        ${d.binance ? `<div class="bar-row">
+          <span class="bar-label">Binance USDT</span>
+          <div class="bar-track"><div class="bar-fill" style="width:${(d.binance/maxRate*100).toFixed(1)}%;background:var(--green);"></div></div>
+          <span class="bar-val">${fmt(d.binance)} Bs</span>
+        </div>` : ''}
+        <div class="bar-row">
+          <span class="bar-label">Promedio</span>
+          <div class="bar-track"><div class="bar-fill" style="width:${(avg/maxRate*100).toFixed(1)}%;background:var(--amber);"></div></div>
+          <span class="bar-val">${fmt(avg)} Bs</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Resumen de tasas</div>
+      <table class="rates-table">
+        <thead>
+          <tr><th>Moneda</th><th>Fuente</th><th>Tasa</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>USD</td>
+            <td><span class="src">BCV oficial</span></td>
+            <td>${fmt(d.bcvUsd)} Bs</td>
+          </tr>
+          ${d.bcvEur ? `<tr>
+            <td>EUR</td>
+            <td><span class="src">BCV oficial</span></td>
+            <td>${fmt(d.bcvEur)} Bs</td>
+          </tr>` : ''}
+          ${d.binance ? `<tr>
+            <td>USDT</td>
+            <td><span class="src">Binance P2P</span></td>
+            <td>${fmt(d.binance)} Bs</td>
+          </tr>` : ''}
+          <tr>
+            <td>Promedio</td>
+            <td><span class="src">calculado</span></td>
+            <td>${fmt(avg)} Bs</td>
+          </tr>
+          ${spread ? `<tr>
+            <td>Brecha</td>
+            <td><span class="src">vs BCV</span></td>
+            <td class="up">+${spread.toFixed(2)}%</td>
+          </tr>` : ''}
+        </tbody>
+      </table>
+    </div>`;
+
+  window._rd = d;
+  recalc();
+}
+
+function recalc() {
+  const d = window._rd; if (!d) return;
+  const amount = parseFloat(document.getElementById('calc-amount')?.value) || 0;
+  const from   = document.getElementById('calc-from')?.value;
+  const rk     = document.getElementById('calc-rate')?.value;
+  let usdRate  = rk === 'binance' ? d.binance : rk === 'avg' ? (d.bcvUsd + (d.binance||d.bcvUsd))/2 : d.bcvUsd;
+  let eurRate  = d.bcvEur || usdRate * 1.12;
+  let result, label, toBs;
+  if      (from === 'usd')    { result = amount * usdRate; label = `${amount.toLocaleString('es-VE')} USD → Bs`; toBs = true; }
+  else if (from === 'eur')    { result = amount * eurRate; label = `${amount.toLocaleString('es-VE')} EUR → Bs`; toBs = true; }
+  else if (from === 'bs_usd') { result = amount / usdRate; label = `${amount.toLocaleString('es-VE')} Bs → USD`; toBs = false; }
+  else                         { result = amount / eurRate; label = `${amount.toLocaleString('es-VE')} Bs → EUR`; toBs = false; }
+  document.getElementById('calc-label').textContent  = label;
+  document.getElementById('calc-output').textContent = result.toLocaleString('es-VE', {
+    minimumFractionDigits: toBs ? 2 : 4,
+    maximumFractionDigits: toBs ? 2 : 4
+  });
+}
+
+loadRates();
+setInterval(loadRates, 5 * 60 * 1000);
+</script>
+</body>
+</html>

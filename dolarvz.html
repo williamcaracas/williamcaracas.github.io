@@ -30,258 +30,197 @@
       --mono:     'JetBrains Mono', monospace;
       --sans:     'Sora', sans-serif;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* subtle grid texture */
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; -webkit-font-smoothing: antialiased; }
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
       background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
+    .app { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
 
-    .app {
-      position: relative;
-      z-index: 1;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem 1.25rem 4rem;
-    }
-
-    /* ── HEADER ── */
-    .header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 2rem;
-      padding-bottom: 1.25rem;
-      border-bottom: 0.5px solid var(--border);
-    }
-
-    .logo {
-      width: 42px; height: 42px;
-      border-radius: 12px;
-      background: var(--green-d);
-      border: 0.5px solid rgba(31,186,136,0.3);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--mono);
-      font-size: 14px; font-weight: 500;
-      color: var(--green);
-      flex-shrink: 0;
-    }
-
+    /* HEADER */
+    .header { display: flex; align-items: center; gap: 14px; margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 0.5px solid var(--border); flex-wrap: wrap; }
+    .logo { width: 42px; height: 42px; border-radius: 12px; background: var(--green-d); border: 0.5px solid rgba(31,186,136,0.3); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--green); flex-shrink: 0; }
     .header-info { flex: 1; }
     .app-title { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; }
     .app-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
-
     .header-right { display: flex; align-items: center; gap: 10px; }
-
-    .live-pill {
-      display: flex; align-items: center; gap: 6px;
-      background: var(--green-d);
-      border: 0.5px solid rgba(31,186,136,0.2);
-      border-radius: 20px;
-      padding: 4px 10px;
-      font-size: 11px; color: var(--green);
-      font-family: var(--mono);
-    }
-    .live-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--green);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%,100% { opacity: 1; } 50% { opacity: 0.3; }
-    }
+    .live-pill { display: flex; align-items: center; gap: 6px; background: var(--green-d); border: 0.5px solid rgba(31,186,136,0.2); border-radius: 20px; padding: 4px 10px; font-size: 11px; color: var(--green); font-family: var(--mono); }
+    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
     .live-pill.loading .live-dot { background: var(--amber); animation: none; }
+    .refresh-btn { background: var(--bg3); border: 0.5px solid var(--border2); border-radius: 8px; padding: 6px 14px; font-size: 12px; font-family: var(--sans); color: var(--text2); cursor: pointer; transition: all 0.2s; }
+    .refresh-btn:hover { color: var(--text); background: var(--bg4); }
 
-    .refresh-btn {
-      background: var(--bg3);
-      border: 0.5px solid var(--border2);
-      border-radius: 8px;
-      padding: 6px 14px;
-      font-size: 12px; font-family: var(--sans);
-      color: var(--text2);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .refresh-btn:hover { color: var(--text); border-color: var(--border2); background: var(--bg4); }
-
-    /* ── CARDS ── */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 10px;
-      margin-bottom: 1.25rem;
-    }
-
-    .card {
-      background: var(--bg2);
-      border: 0.5px solid var(--border);
-      border-radius: 16px;
-      padding: 1.1rem 1.2rem 1rem;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.2s;
-    }
+    /* CARDS */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 1.25rem; }
+    .card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 16px; padding: 1.1rem 1.2rem 1rem; position: relative; overflow: hidden; transition: border-color 0.2s; }
     .card:hover { border-color: var(--border2); }
-    .card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      border-radius: 16px 16px 0 0;
-    }
-    .card.accent-blue::after  { background: var(--blue); }
+    .card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; border-radius: 16px 16px 0 0; }
+    .card.accent-blue::after   { background: var(--blue); }
     .card.accent-purple::after { background: var(--purple); }
-    .card.accent-green::after { background: var(--green); }
-    .card.accent-amber::after { background: var(--amber); }
-
-    .card-icon {
-      font-size: 11px; font-family: var(--mono);
-      color: var(--text3);
-      margin-bottom: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .card-value {
-      font-size: 24px; font-weight: 600;
-      font-family: var(--mono);
-      letter-spacing: -0.03em;
-      line-height: 1;
-      color: var(--text);
-    }
+    .card.accent-green::after  { background: var(--green); }
+    .card.accent-amber::after  { background: var(--amber); }
+    .card-icon { font-size: 11px; font-family: var(--mono); color: var(--text3); margin-bottom: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .card-value { font-size: 24px; font-weight: 600; font-family: var(--mono); letter-spacing: -0.03em; line-height: 1; color: var(--text); }
     .card-unit { font-size: 13px; color: var(--text2); font-weight: 400; margin-left: 3px; }
     .card-change { font-size: 12px; margin-top: 8px; font-family: var(--mono); }
-    .card-badge {
-      display: inline-block; font-size: 10px;
-      padding: 3px 9px; border-radius: 20px;
-      margin-top: 10px; font-weight: 500;
-      letter-spacing: 0.04em; text-transform: uppercase;
-    }
+    .card-badge { display: inline-block; font-size: 10px; padding: 3px 9px; border-radius: 20px; margin-top: 10px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
     .badge-blue   { background: var(--blue-d);   color: var(--blue);   border: 0.5px solid rgba(74,158,255,0.2); }
     .badge-purple { background: var(--purple-d); color: var(--purple); border: 0.5px solid rgba(155,135,245,0.2); }
-    .badge-green  { background: var(--green-d);  color: var(--green);  border: 0.5px solid rgba(31,186,136,0.2); }
     .badge-amber  { background: var(--amber-d);  color: var(--amber);  border: 0.5px solid rgba(245,166,35,0.2); }
-    .up   { color: var(--green); }
-    .down { color: var(--red); }
-    .flat { color: var(--text2); }
+    .up { color: var(--green); } .down { color: var(--red); } .flat { color: var(--text2); }
 
-    /* ── SPREAD ── */
-    .spread-row {
-      display: flex; gap: 10px;
-      margin-bottom: 1.25rem;
-    }
-    .spread-card {
-      flex: 1;
-      background: var(--bg2);
-      border: 0.5px solid var(--border);
-      border-radius: 14px;
-      padding: 1rem 1.25rem;
-      display: flex; justify-content: space-between; align-items: center;
-    }
+    /* SPREAD */
+    .spread-row { display: flex; gap: 10px; margin-bottom: 1.25rem; }
+    .spread-card { flex: 1; background: var(--bg2); border: 0.5px solid var(--border); border-radius: 14px; padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; }
     .spread-label { font-size: 12px; color: var(--text2); }
-    .spread-sub   { font-size: 11px; color: var(--text3); margin-top: 3px; }
-    .spread-pct   { font-size: 28px; font-weight: 600; font-family: var(--mono); color: var(--amber); letter-spacing: -0.03em; }
-    .spread-diff  { font-size: 12px; color: var(--text2); margin-top: 2px; text-align: right; font-family: var(--mono); }
+    .spread-sub { font-size: 11px; color: var(--text3); margin-top: 3px; }
+    .spread-pct { font-size: 28px; font-weight: 600; font-family: var(--mono); color: var(--amber); letter-spacing: -0.03em; }
+    .spread-diff { font-size: 12px; color: var(--text2); margin-top: 2px; text-align: right; font-family: var(--mono); }
 
-    /* ── SECTIONS ── */
-    .section {
-      background: var(--bg2);
-      border: 0.5px solid var(--border);
-      border-radius: 16px;
-      padding: 1.25rem;
-      margin-bottom: 1rem;
-    }
-    .section-title {
-      font-size: 11px; color: var(--text3);
-      letter-spacing: 0.1em; text-transform: uppercase;
-      margin-bottom: 1.1rem;
-      font-family: var(--mono);
-    }
+    /* SECTIONS */
+    .section { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 16px; padding: 1.25rem; margin-bottom: 1rem; }
+    .section-title { font-size: 11px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.1rem; font-family: var(--mono); }
 
-    /* ── CALC ── */
-    .calc-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
+    /* CALC */
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
     @media (max-width: 500px) { .calc-grid { grid-template-columns: 1fr 1fr; } }
-    .calc-grid input, .calc-grid select {
-      background: var(--bg3);
-      border: 0.5px solid var(--border2);
-      border-radius: 10px;
-      padding: 9px 12px;
-      font-size: 14px; font-family: var(--sans);
-      color: var(--text);
-      outline: none;
-      width: 100%;
-      transition: border-color 0.2s;
-    }
+    .calc-grid input, .calc-grid select { background: var(--bg3); border: 0.5px solid var(--border2); border-radius: 10px; padding: 9px 12px; font-size: 14px; font-family: var(--sans); color: var(--text); outline: none; width: 100%; transition: border-color 0.2s; }
     .calc-grid input:focus, .calc-grid select:focus { border-color: var(--blue); }
     .calc-grid select option { background: #1f1f1f; }
-    .calc-result {
-      background: var(--bg3);
-      border: 0.5px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 18px;
-      display: flex; justify-content: space-between; align-items: center;
-    }
+    .calc-result { background: var(--bg3); border: 0.5px solid var(--border); border-radius: 12px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; }
     .calc-result-label { font-size: 12px; color: var(--text2); }
     .calc-result-val { font-size: 24px; font-weight: 600; font-family: var(--mono); color: var(--text); letter-spacing: -0.02em; }
 
-    /* ── BARS ── */
+    /* BARS */
     .bars { display: flex; flex-direction: column; gap: 14px; }
     .bar-row { display: flex; align-items: center; gap: 12px; }
     .bar-label { font-size: 12px; color: var(--text2); min-width: 90px; font-family: var(--mono); }
     .bar-track { flex: 1; background: var(--bg3); border-radius: 6px; height: 8px; overflow: hidden; }
-    .bar-fill  { height: 100%; border-radius: 6px; transition: width 0.7s cubic-bezier(0.4,0,0.2,1); }
-    .bar-val   { font-size: 13px; color: var(--text); min-width: 100px; text-align: right; font-family: var(--mono); }
+    .bar-fill { height: 100%; border-radius: 6px; transition: width 0.7s cubic-bezier(0.4,0,0.2,1); }
+    .bar-val { font-size: 13px; color: var(--text); min-width: 100px; text-align: right; font-family: var(--mono); }
 
-    /* ── TABLE ── */
+    /* TABLE */
     .rates-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .rates-table th {
-      color: var(--text3); font-weight: 400;
-      padding: 6px 0; border-bottom: 0.5px solid var(--border);
-      font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
-      font-family: var(--mono);
-    }
+    .rates-table th { color: var(--text3); font-weight: 400; padding: 6px 0; border-bottom: 0.5px solid var(--border); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-family: var(--mono); }
     .rates-table th:last-child, .rates-table td:last-child { text-align: right; }
     .rates-table td { padding: 12px 0; border-bottom: 0.5px solid var(--border); color: var(--text); }
     .rates-table tr:last-child td { border-bottom: none; }
     .rates-table .src { font-size: 11px; color: var(--text3); font-family: var(--mono); }
 
-    /* ── FOOTER ── */
+    /* VERIFY BUTTON */
+    .verify-btn {
+      width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 1rem 1.5rem;
+      background: linear-gradient(135deg, rgba(74,158,255,0.08) 0%, rgba(155,135,245,0.08) 100%);
+      border: 0.5px solid rgba(74,158,255,0.25);
+      border-radius: 16px;
+      color: var(--blue);
+      font-size: 15px; font-weight: 500; font-family: var(--sans);
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.01em;
+    }
+    .verify-btn:hover { background: linear-gradient(135deg, rgba(74,158,255,0.14) 0%, rgba(155,135,245,0.14) 100%); border-color: rgba(74,158,255,0.45); transform: translateY(-1px); }
+    .verify-btn:active { transform: translateY(0); }
+    .verify-btn-icon { width: 28px; height: 28px; border-radius: 8px; background: var(--blue-d); border: 0.5px solid rgba(74,158,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; flex-shrink: 0; }
+    .verify-btn-arrow { margin-left: auto; opacity: 0.5; font-size: 16px; }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: flex; align-items: flex-end; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    @media (min-width: 600px) { .modal-overlay { align-items: center; } }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--bg2);
+      border: 0.5px solid var(--border2);
+      border-radius: 24px 24px 0 0;
+      width: 100%; max-width: 580px; max-height: 92vh;
+      overflow-y: auto;
+      transform: translateY(40px);
+      transition: transform 0.35s cubic-bezier(0.34,1.2,0.64,1);
+    }
+    @media (min-width: 600px) { .modal { border-radius: 24px; transform: translateY(20px) scale(0.97); } .modal-overlay.open .modal { transform: translateY(0) scale(1); } }
+    .modal-overlay.open .modal { transform: translateY(0); }
+
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 1.25rem 1rem;
+      border-bottom: 0.5px solid var(--border);
+      position: sticky; top: 0;
+      background: var(--bg2); z-index: 2;
+      border-radius: 24px 24px 0 0;
+    }
+    @media (min-width: 600px) { .modal-header { border-radius: 24px 24px 0 0; } }
+    .modal-title-row { display: flex; align-items: center; gap: 12px; }
+    .modal-icon { width: 40px; height: 40px; border-radius: 12px; background: var(--blue-d); border: 0.5px solid rgba(74,158,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: var(--blue); font-family: var(--mono); flex-shrink: 0; }
+    .modal-title { font-size: 16px; font-weight: 600; color: var(--text); }
+    .modal-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
+    .modal-close { background: var(--bg3); border: 0.5px solid var(--border2); border-radius: 8px; width: 32px; height: 32px; color: var(--text2); cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+    .modal-close:hover { color: var(--text); background: var(--bg4); }
+    .modal-body { padding: 1.25rem; }
+
+    /* SERIES */
+    .field-label { font-size: 11px; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; font-family: var(--mono); margin-bottom: 10px; }
+    .series-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    @media (max-width: 400px) { .series-grid { grid-template-columns: repeat(3, 1fr); } }
+    .series-btn { background: var(--bg3); border: 0.5px solid var(--border2); border-radius: 10px; padding: 10px 6px; color: var(--text2); font-size: 12px; font-family: var(--sans); cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .series-btn:hover { border-color: rgba(74,158,255,0.35); color: var(--text); }
+    .series-btn.active { background: var(--blue-d); border-color: rgba(74,158,255,0.5); color: var(--blue); }
+    .series-letter { font-family: var(--mono); font-size: 16px; font-weight: 500; color: var(--amber); }
+    .series-btn.active .series-letter { color: var(--blue); }
+
+    /* SERIAL INPUT */
+    .serial-input-wrap { position: relative; display: flex; align-items: center; }
+    .serial-input { width: 100%; background: var(--bg3); border: 0.5px solid var(--border2); border-radius: 12px; padding: 13px 60px 13px 16px; font-size: 18px; font-family: var(--mono); font-weight: 500; color: var(--text); outline: none; letter-spacing: 0.06em; text-transform: uppercase; transition: border-color 0.2s; }
+    .serial-input:focus { border-color: var(--blue); }
+    .serial-input::placeholder { color: var(--text3); font-size: 14px; letter-spacing: 0.02em; text-transform: none; }
+    .serial-indicator { position: absolute; right: 14px; font-size: 22px; pointer-events: none; }
+
+    /* RESULT */
+    .result-box { display: flex; align-items: flex-start; gap: 14px; background: var(--bg3); border: 0.5px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-top: 12px; transition: all 0.3s ease; min-height: 60px; }
+    .result-box.valid   { border-color: rgba(31,186,136,0.4);  background: rgba(31,186,136,0.06); }
+    .result-box.invalid { border-color: rgba(255,94,87,0.4);   background: rgba(255,94,87,0.06); }
+    .result-box.pending { border-color: rgba(245,166,35,0.4);  background: rgba(245,166,35,0.06); }
+    .result-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+    .result-text { font-size: 14px; color: var(--text2); line-height: 1.5; }
+    .result-text strong { color: var(--text); font-weight: 500; display: block; margin-bottom: 3px; }
+
+    /* SECURITY */
+    .security-title { font-size: 11px; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; font-family: var(--mono); margin: 1.5rem 0 0.75rem; }
+    .security-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    @media (max-width: 400px) { .security-grid { grid-template-columns: 1fr; } }
+    .security-card { background: var(--bg3); border: 0.5px solid var(--border); border-radius: 12px; padding: 12px; display: flex; align-items: flex-start; gap: 10px; transition: border-color 0.2s; }
+    .security-card:hover { border-color: var(--border2); }
+    .sec-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .sec-name { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+    .sec-desc { font-size: 11px; color: var(--text2); line-height: 1.5; }
+
+    /* DISCLAIMER */
+    .disclaimer { margin-top: 1.25rem; padding: 12px 14px; background: rgba(255,255,255,0.02); border: 0.5px solid var(--border); border-radius: 10px; font-size: 11px; color: var(--text3); line-height: 1.6; text-align: center; font-style: italic; }
+
+    /* FOOTER */
     .footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--text3); font-family: var(--mono); }
 
-    /* ── LOADING / ERROR ── */
+    /* LOADER */
     .loader { text-align: center; padding: 3rem; color: var(--text2); font-size: 14px; }
     .loader span { display: inline-block; animation: blink 1.2s step-end infinite; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-    .error-msg { text-align: center; padding: 1.5rem; color: var(--red); font-size: 13px; }
 
-    .demo-badge {
-      display: inline-block; font-size: 10px;
-      background: var(--amber-d); color: var(--amber);
-      border: 0.5px solid rgba(245,166,35,0.2);
-      border-radius: 20px; padding: 2px 8px;
-      margin-left: 6px; font-family: var(--mono);
-    }
+    .demo-badge { display: inline-block; font-size: 10px; background: var(--amber-d); color: var(--amber); border: 0.5px solid rgba(245,166,35,0.2); border-radius: 20px; padding: 2px 8px; margin-left: 6px; font-family: var(--mono); }
   </style>
 </head>
 <body>
@@ -306,15 +245,98 @@
     <div class="loader">Consultando APIs<span>...</span></div>
   </div>
 
+  <button class="verify-btn" onclick="openVerifier()">
+    <span class="verify-btn-icon">$</span>
+    Verificar Billete USD · $100 Serie Azul
+    <span class="verify-btn-arrow">→</span>
+  </button>
+
   <div class="footer">Datos: ve.dolarapi.com · Actualización automática cada 5 min</div>
 </div>
 
+<!-- MODAL VERIFICADOR -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeVerifier(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-title-row">
+        <div class="modal-icon">$</div>
+        <div>
+          <div class="modal-title">Verificador de Serial</div>
+          <div class="modal-sub">Billete de $100 · Serie Azul · Post 2009</div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeVerifier()">✕</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="field-label">1 · Selecciona la serie del billete</div>
+      <div class="series-grid">
+        <button class="series-btn" data-series="2009"  data-letter="J" onclick="selectSeries(this)">2009<span class="series-letter">J</span></button>
+        <button class="series-btn" data-series="2009A" data-letter="L" onclick="selectSeries(this)">2009A<span class="series-letter">L</span></button>
+        <button class="series-btn" data-series="2013"  data-letter="M" onclick="selectSeries(this)">2013<span class="series-letter">M</span></button>
+        <button class="series-btn" data-series="2017"  data-letter="N" onclick="selectSeries(this)">2017<span class="series-letter">N</span></button>
+        <button class="series-btn" data-series="2017A" data-letter="P" onclick="selectSeries(this)">2017A<span class="series-letter">P</span></button>
+      </div>
+
+      <div class="field-label" style="margin-top:1.25rem;">2 · Ingresa el serial del billete</div>
+      <div class="serial-input-wrap">
+        <input type="text" id="serial-input" class="serial-input" placeholder="Ej: JB12345678A" maxlength="14" oninput="validateSerial()" autocomplete="off" spellcheck="false" />
+        <div class="serial-indicator" id="serial-indicator"></div>
+      </div>
+
+      <div class="result-box" id="result-box">
+        <div class="result-icon" id="result-icon">💡</div>
+        <div class="result-text" id="result-text">Selecciona una serie e ingresa el serial para verificar</div>
+      </div>
+
+      <div class="security-title">Puntos de seguridad · $100 Serie Azul</div>
+      <div class="security-grid">
+        <div class="security-card">
+          <div class="sec-icon" style="background:rgba(74,158,255,0.12);color:var(--blue);">🔔</div>
+          <div class="sec-info">
+            <div class="sec-name">Campana en tintero</div>
+            <div class="sec-desc">Al inclinar el billete, la campana dentro del tintero cambia de color cobre a verde</div>
+          </div>
+        </div>
+        <div class="security-card">
+          <div class="sec-icon" style="background:rgba(155,135,245,0.12);color:var(--purple);">🧵</div>
+          <div class="sec-info">
+            <div class="sec-name">Hilo de seguridad 3D</div>
+            <div class="sec-desc">Hilo azul entretejido con imágenes de campanas y "100" que se mueven en 3D al inclinar</div>
+          </div>
+        </div>
+        <div class="security-card">
+          <div class="sec-icon" style="background:rgba(31,186,136,0.12);color:var(--green);">👤</div>
+          <div class="sec-info">
+            <div class="sec-name">Marca de agua Franklin</div>
+            <div class="sec-desc">Al trasluz aparece el rostro de Benjamin Franklin y el número 100 a ambos lados</div>
+          </div>
+        </div>
+        <div class="security-card">
+          <div class="sec-icon" style="background:rgba(245,166,35,0.12);color:var(--amber);">✨</div>
+          <div class="sec-info">
+            <div class="sec-name">Tinta que cambia de color</div>
+            <div class="sec-desc">El "100" en la esquina inferior derecha cambia de cobre a verde al inclinar</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="disclaimer">
+        Esta herramienta es referencial y no sustituye la verificación profesional.
+        No nos hacemos responsables por la autenticidad de los billetes.
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <script>
+/* ════════ TASAS ════════ */
 const APIS = [
   'https://ve.dolarapi.com/v1/dolares',
   'https://pydolarve.org/api/v2/dollar?monitor=all'
 ];
-
 let ratesData = null;
 
 async function tryFetch(url) {
@@ -324,55 +346,80 @@ async function tryFetch(url) {
 }
 
 function parseVeDolar(data) {
-  const find = (keys) => data.find(d =>
-    keys.some(k => (d.nombre || d.slug || d.title || '').toLowerCase().includes(k))
-  );
-  const bcvUsd = find(['bcv','oficial usd','dolar bcv','usd bcv']);
-  const binance = find(['binance','cripto','crypto','usdt']);
-  const eur     = find(['euro']);
-  if (!bcvUsd) return null;
+  // Busca en múltiples campos posibles de la API
+  const getText = (d) => ((d.nombre || '') + ' ' + (d.fuente || '') + ' ' + (d.slug || '') + ' ' + (d.title || '') + ' ' + (d.moneda || '')).toLowerCase();
+  const find = (keys) => data.find(d => keys.some(k => getText(d).includes(k)));
+
+  // BCV: busca por fuente="oficial" o nombre que incluya bcv/oficial
+  let bcvUsd = find(['bcv','oficial','fuente oficial']);
+  // Si no encontró, busca el que tenga moneda=USD y fuente=oficial
+  if (!bcvUsd) bcvUsd = data.find(d => d.moneda === 'USD' && d.fuente === 'oficial');
+  // Si sigue sin encontrar, toma el primero con moneda=USD
+  if (!bcvUsd) bcvUsd = data.find(d => d.moneda === 'USD');
+
+  // Paralelo: busca por fuente="paralelo"
+  let binance = find(['paralelo','fuente paralelo','binance','cripto','usdt']);
+  if (!binance) binance = data.find(d => d.fuente === 'paralelo');
+
+  // Euro: busca moneda=EUR
+  let eur = find(['euro','eur']);
+  if (!eur) eur = data.find(d => d.moneda === 'EUR');
+
+  if (!bcvUsd) {
+    console.error('No se pudo identificar la tasa BCV. Datos recibidos:', data);
+    return null;
+  }
+
+  const safeNum = (val) => {
+    if (val == null) return 0;
+    const parsed = parseFloat(val);
+    return isNaN(parsed) ? 0 : parsed;
+  };
+
   return {
-    bcvUsd:    parseFloat(bcvUsd.promedio || bcvUsd.precio || 0),
-    bcvEur:    eur ? parseFloat(eur.promedio || eur.precio || 0) : null,
-    binance:   binance ? parseFloat(binance.promedio || binance.precio || 0) : null,
-    bcvUsdChg: parseFloat(bcvUsd.variacion || 0),
-    binanceChg: parseFloat(binance?.variacion || 0),
-    eurChg:    parseFloat(eur?.variacion || 0),
+    bcvUsd:     safeNum(bcvUsd.promedio || bcvUsd.precio || bcvUsd.usd || bcvUsd.venta || bcvUsd.compra),
+    bcvEur:     eur ? safeNum(eur.promedio || eur.precio || eur.usd || eur.venta) : null,
+    binance:    binance ? safeNum(binance.promedio || binance.precio || binance.usd || binance.venta) : null,
+    bcvUsdChg:  safeNum(bcvUsd.variacion || bcvUsd.change || bcvUsd.cambio),
+    binanceChg: safeNum(binance?.variacion || binance?.change || binance?.cambio),
+    eurChg:     safeNum(eur?.variacion || eur?.change || eur?.cambio),
   };
 }
 
 async function loadRates() {
-  const pill = document.getElementById('live-pill');
+  const pill   = document.getElementById('live-pill');
   const timeEl = document.getElementById('update-time');
   pill.className = 'live-pill loading';
   timeEl.textContent = 'Actualizando';
 
   let parsed = null;
+  let sourceName = '';
   try {
     const raw = await tryFetch(APIS[0]);
-    if (Array.isArray(raw)) parsed = parseVeDolar(raw);
+    if (Array.isArray(raw)) {
+      parsed = parseVeDolar(raw);
+      sourceName = 've.dolarapi.com';
+    }
   } catch(e) {}
 
   if (!parsed) {
     try {
       const raw = await tryFetch(APIS[1]);
-      const arr = raw?.monitors
-        ? Object.values(raw.monitors).map(v => ({...v, nombre: v.title || v.key || ''}))
-        : null;
-      if (arr) parsed = parseVeDolar(arr);
+      const arr = raw?.monitors ? Object.values(raw.monitors).map(v => ({...v, nombre: v.title||v.key||''})) : null;
+      if (arr) {
+        parsed = parseVeDolar(arr);
+        sourceName = 'pydolarve.org';
+      }
     } catch(e) {}
   }
 
   const isDemo = !parsed;
-  if (isDemo) {
-    parsed = { bcvUsd: 474.06, bcvEur: 524.80, binance: 657.50, bcvUsdChg: 0.04, binanceChg: -0.59, eurChg: 0.10 };
-  }
+  if (isDemo) parsed = { bcvUsd: 474.06, bcvEur: 524.80, binance: 657.50, bcvUsdChg: 0.04, binanceChg: -0.59, eurChg: 0.10 };
 
   ratesData = parsed;
-  renderDashboard(parsed, isDemo);
+  renderDashboard(parsed);
 
-  const now = new Date();
-  const hm = now.toLocaleTimeString('es-VE', {hour:'2-digit',minute:'2-digit'});
+  const hm = new Date().toLocaleTimeString('es-VE', {hour:'2-digit', minute:'2-digit'});
   pill.className = 'live-pill';
   timeEl.textContent = hm;
   const oldTag = pill.querySelector('.demo-badge');
@@ -382,20 +429,22 @@ async function loadRates() {
     tag.className = 'demo-badge'; tag.textContent = 'demo';
     timeEl.after(tag);
   }
+
+  // Debug: ver datos en consola
+  console.log('Fuente:', isDemo ? 'DEMO' : sourceName, 'Datos:', parsed);
 }
 
-const fmt  = (n, dec=2) => n != null ? n.toLocaleString('es-VE', {minimumFractionDigits: dec, maximumFractionDigits: 4}) : '—';
-const cls  = v => v > 0 ? 'up' : v < 0 ? 'down' : 'flat';
-const arrow= v => v > 0 ? '▲ ' : v < 0 ? '▼ ' : '';
+const fmt   = (n, dec=2) => n != null ? n.toLocaleString('es-VE', {minimumFractionDigits:dec, maximumFractionDigits:4}) : '—';
+const cls   = v => v > 0 ? 'up' : v < 0 ? 'down' : 'flat';
+const arrow = v => v > 0 ? '▲ ' : v < 0 ? '▼ ' : '';
 
-function renderDashboard(d, isDemo) {
+function renderDashboard(d) {
   const spread    = d.binance ? ((d.binance - d.bcvUsd) / d.bcvUsd * 100) : null;
   const spreadDif = d.binance ? (d.binance - d.bcvUsd) : null;
   const avg       = d.binance ? (d.bcvUsd * 0.5 + d.binance * 0.5) : d.bcvUsd;
   const maxRate   = Math.max(d.bcvUsd, d.bcvEur||0, d.binance||0, avg);
 
   document.getElementById('main-content').innerHTML = `
-
     <div class="cards-grid">
       <div class="card accent-blue">
         <div class="card-icon">USD · BCV</div>
@@ -403,21 +452,18 @@ function renderDashboard(d, isDemo) {
         <div class="card-change ${cls(d.bcvUsdChg)}">${arrow(d.bcvUsdChg)}${Math.abs(d.bcvUsdChg).toFixed(2)}%</div>
         <span class="card-badge badge-blue">Oficial</span>
       </div>
-
       ${d.bcvEur ? `<div class="card accent-purple">
         <div class="card-icon">EUR · BCV</div>
         <div class="card-value">${fmt(d.bcvEur)}<span class="card-unit">Bs</span></div>
         <div class="card-change ${cls(d.eurChg)}">${arrow(d.eurChg)}${Math.abs(d.eurChg).toFixed(2)}%</div>
         <span class="card-badge badge-purple">Oficial</span>
       </div>` : ''}
-
       ${d.binance ? `<div class="card accent-green">
-        <div class="card-icon">USDT · Binance</div>
+        <div class="card-icon">USDT · Paralelo</div>
         <div class="card-value">${fmt(d.binance)}<span class="card-unit">Bs</span></div>
         <div class="card-change ${cls(d.binanceChg)}">${arrow(d.binanceChg)}${Math.abs(d.binanceChg).toFixed(2)}%</div>
         <span class="card-badge badge-amber">Paralelo</span>
       </div>` : ''}
-
       <div class="card accent-amber">
         <div class="card-icon">Promedio</div>
         <div class="card-value">${fmt(avg)}<span class="card-unit">Bs</span></div>
@@ -429,7 +475,7 @@ function renderDashboard(d, isDemo) {
     ${spread != null ? `<div class="spread-row">
       <div class="spread-card">
         <div>
-          <div class="spread-label">Brecha BCV vs Binance</div>
+          <div class="spread-label">Brecha BCV vs Paralelo</div>
           <div class="spread-sub">paralelo sobre tasa oficial</div>
         </div>
         <div style="text-align:right">
@@ -451,7 +497,7 @@ function renderDashboard(d, isDemo) {
         </select>
         <select id="calc-rate" onchange="recalc()">
           <option value="bcv">Tasa BCV</option>
-          ${d.binance ? '<option value="binance">Binance</option>' : ''}
+          ${d.binance ? '<option value="binance">Paralelo</option>' : ''}
           <option value="avg">Promedio</option>
         </select>
       </div>
@@ -475,7 +521,7 @@ function renderDashboard(d, isDemo) {
           <span class="bar-val">${fmt(d.bcvEur)} Bs</span>
         </div>` : ''}
         ${d.binance ? `<div class="bar-row">
-          <span class="bar-label">Binance USDT</span>
+          <span class="bar-label">Paralelo</span>
           <div class="bar-track"><div class="bar-fill" style="width:${(d.binance/maxRate*100).toFixed(1)}%;background:var(--green);"></div></div>
           <span class="bar-val">${fmt(d.binance)} Bs</span>
         </div>` : ''}
@@ -490,35 +536,13 @@ function renderDashboard(d, isDemo) {
     <div class="section">
       <div class="section-title">Resumen de tasas</div>
       <table class="rates-table">
-        <thead>
-          <tr><th>Moneda</th><th>Fuente</th><th>Tasa</th></tr>
-        </thead>
+        <thead><tr><th>Moneda</th><th>Fuente</th><th>Tasa</th></tr></thead>
         <tbody>
-          <tr>
-            <td>USD</td>
-            <td><span class="src">BCV oficial</span></td>
-            <td>${fmt(d.bcvUsd)} Bs</td>
-          </tr>
-          ${d.bcvEur ? `<tr>
-            <td>EUR</td>
-            <td><span class="src">BCV oficial</span></td>
-            <td>${fmt(d.bcvEur)} Bs</td>
-          </tr>` : ''}
-          ${d.binance ? `<tr>
-            <td>USDT</td>
-            <td><span class="src">Binance P2P</span></td>
-            <td>${fmt(d.binance)} Bs</td>
-          </tr>` : ''}
-          <tr>
-            <td>Promedio</td>
-            <td><span class="src">calculado</span></td>
-            <td>${fmt(avg)} Bs</td>
-          </tr>
-          ${spread ? `<tr>
-            <td>Brecha</td>
-            <td><span class="src">vs BCV</span></td>
-            <td class="up">+${spread.toFixed(2)}%</td>
-          </tr>` : ''}
+          <tr><td>USD</td><td><span class="src">BCV oficial</span></td><td>${fmt(d.bcvUsd)} Bs</td></tr>
+          ${d.bcvEur ? `<tr><td>EUR</td><td><span class="src">BCV oficial</span></td><td>${fmt(d.bcvEur)} Bs</td></tr>` : ''}
+          ${d.binance ? `<tr><td>USDT</td><td><span class="src">Paralelo</span></td><td>${fmt(d.binance)} Bs</td></tr>` : ''}
+          <tr><td>Promedio</td><td><span class="src">calculado</span></td><td>${fmt(avg)} Bs</td></tr>
+          ${spread ? `<tr><td>Brecha</td><td><span class="src">vs BCV</span></td><td class="up">+${spread.toFixed(2)}%</td></tr>` : ''}
         </tbody>
       </table>
     </div>`;
@@ -548,6 +572,80 @@ function recalc() {
 
 loadRates();
 setInterval(loadRates, 5 * 60 * 1000);
+
+/* ════════ VERIFICADOR ════════ */
+let selectedLetter = null;
+let selectedSeries = null;
+
+function openVerifier() {
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVerifier(e) {
+  if (e && e.target !== document.getElementById('modal-overlay')) return;
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function selectSeries(btn) {
+  document.querySelectorAll('.series-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedLetter = btn.dataset.letter;
+  selectedSeries = btn.dataset.series;
+  validateSerial();
+  document.getElementById('serial-input').focus();
+}
+
+function validateSerial() {
+  const raw    = document.getElementById('serial-input').value.trim().toUpperCase();
+  const indEl  = document.getElementById('serial-indicator');
+  const boxEl  = document.getElementById('result-box');
+  const iconEl = document.getElementById('result-icon');
+  const textEl = document.getElementById('result-text');
+
+  if (!raw) {
+    indEl.textContent = '';
+    boxEl.className = 'result-box';
+    iconEl.textContent = '💡';
+    textEl.innerHTML = 'Selecciona una serie e ingresa el serial para verificar';
+    return;
+  }
+
+  const firstLetter = raw.charAt(0);
+  indEl.textContent = firstLetter;
+
+  if (!selectedLetter) {
+    boxEl.className = 'result-box pending';
+    iconEl.textContent = '⚠️';
+    textEl.innerHTML = '<strong>Selecciona la serie primero</strong>Debes elegir el año de la serie del billete arriba';
+    return;
+  }
+
+  const isValid   = firstLetter === selectedLetter;
+  const hasLength = raw.length >= 10;
+
+  if (isValid && hasLength) {
+    boxEl.className = 'result-box valid';
+    iconEl.textContent = '✅';
+    textEl.innerHTML = `<strong>Serial coherente con Serie ${selectedSeries}</strong>La letra "${firstLetter}" corresponde correctamente a la Serie ${selectedSeries}`;
+  } else if (isValid && !hasLength) {
+    boxEl.className = 'result-box pending';
+    iconEl.textContent = '🔄';
+    textEl.innerHTML = `<strong>Letra correcta — sigue escribiendo</strong>Serie ${selectedSeries} empieza con "${selectedLetter}" · Ingresa el serial completo`;
+  } else {
+    boxEl.className = 'result-box invalid';
+    iconEl.textContent = '❌';
+    textEl.innerHTML = `<strong>Serial NO coincide con Serie ${selectedSeries}</strong>La Serie ${selectedSeries} debe empezar con "<strong>${selectedLetter}</strong>", pero el serial ingresado empieza con "${firstLetter}"`;
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
 </script>
 </body>
 </html>

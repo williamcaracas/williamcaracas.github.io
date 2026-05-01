@@ -112,127 +112,65 @@
     .rates-table tr:last-child td { border-bottom: none; }
     .rates-table .src { font-size: 11px; color: var(--text3); font-family: var(--mono); }
 
-    /* VERIFY BUTTON */
-    .verify-btn {
-      width: 100%;
-      display: flex; align-items: center; justify-content: center; gap: 12px;
-      padding: 1rem 1.5rem;
-      background: linear-gradient(135deg, rgba(74,158,255,0.08) 0%, rgba(155,135,245,0.08) 100%);
-      border: 0.5px solid rgba(74,158,255,0.25);
-      border-radius: 16px;
-      color: var(--blue);
-      font-size: 15px; font-weight: 500; font-family: var(--sans);
-      cursor: pointer;
-      transition: all 0.25s;
-      margin-bottom: 1.25rem;
-      letter-spacing: -0.01em;
-    }
-    .verify-btn:hover { background: linear-gradient(135deg, rgba(74,158,255,0.14) 0%, rgba(155,135,245,0.14) 100%); border-color: rgba(74,158,255,0.45); transform: translateY(-1px); }
-    .verify-btn:active { transform: translateY(0); }
-    .verify-btn-icon { width: 28px; height: 28px; border-radius: 8px; background: var(--blue-d); border: 0.5px solid rgba(74,158,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; flex-shrink: 0; }
-    .verify-btn-arrow { margin-left: auto; opacity: 0.5; font-size: 16px; }
-
-    /* MODAL */
-    .modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-      z-index: 1000;
-      display: flex; align-items: flex-end; justify-content: center;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-    @media (min-width: 600px) { .modal-overlay { align-items: center; } }
-    .modal-overlay.open { opacity: 1; pointer-events: all; }
-    .modal {
-      background: var(--bg2);
-      border: 0.5px solid var(--border2);
-      border-radius: 24px 24px 0 0;
-      width: 100%; max-width: 580px; max-height: 92vh;
-      overflow-y: auto;
-      transform: translateY(40px);
-      transition: transform 0.35s cubic-bezier(0.34,1.2,0.64,1);
-    }
-    @media (min-width: 600px) { .modal { border-radius: 24px; transform: translateY(20px) scale(0.97); } .modal-overlay.open .modal { transform: translateY(0) scale(1); } }
-    .modal-overlay.open .modal { transform: translateY(0); }
-
-    .modal-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.25rem 1.25rem 1rem;
-      border-bottom: 0.5px solid var(--border);
-      position: sticky; top: 0;
-      background: var(--bg2); z-index: 2;
-      border-radius: 24px 24px 0 0;
-    }
-    @media (min-width: 600px) { .modal-header { border-radius: 24px 24px 0 0; } }
-    .modal-title-row { display: flex; align-items: center; gap: 12px; }
-    .modal-icon { width: 40px; height: 40px; border-radius: 12px; background: var(--blue-d); border: 0.5px solid rgba(74,158,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: var(--blue); font-family: var(--mono); flex-shrink: 0; }
-    .modal-title { font-size: 16px; font-weight: 600; color: var(--text); }
-    .modal-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
-    .modal-close { background: var(--bg3); border: 0.5px solid var(--border2); border-radius: 8px; width: 32px; height: 32px; color: var(--text2); cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
-    .modal-close:hover { color: var(--text); background: var(--bg4); }
-    .modal-body { padding: 1.25rem; }
-
-    /* SERIES */
-    .field-label { font-size: 11px; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; font-family: var(--mono); margin-bottom: 10px; }
-    .series-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-    @media (max-width: 400px) { .series-grid { grid-template-columns: repeat(3, 1fr); } }
-    .series-btn { background: var(--bg3); border: 0.5px solid var(--border2); border-radius: 10px; padding: 10px 6px; color: var(--text2); font-size: 12px; font-family: var(--sans); cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .series-btn:hover { border-color: rgba(74,158,255,0.35); color: var(--text); }
-    .series-btn.active { background: var(--blue-d); border-color: rgba(74,158,255,0.5); color: var(--blue); }
-    .series-letter { font-family: var(--mono); font-size: 16px; font-weight: 500; color: var(--amber); }
-    .series-btn.active .series-letter { color: var(--blue); }
-
-    /* SERIAL INPUT */
-    .serial-input-wrap { position: relative; display: flex; align-items: center; }
-    .serial-input { width: 100%; background: var(--bg3); border: 0.5px solid var(--border2); border-radius: 12px; padding: 13px 60px 13px 16px; font-size: 18px; font-family: var(--mono); font-weight: 500; color: var(--text); outline: none; letter-spacing: 0.06em; text-transform: uppercase; transition: border-color 0.2s; }
-    .serial-input:focus { border-color: var(--blue); }
-    .serial-input::placeholder { color: var(--text3); font-size: 14px; letter-spacing: 0.02em; text-transform: none; }
-    .serial-indicator { position: absolute; right: 14px; font-size: 22px; pointer-events: none; }
-
-    /* RESULT */
-    .result-box { display: flex; align-items: flex-start; gap: 14px; background: var(--bg3); border: 0.5px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-top: 12px; transition: all 0.3s ease; min-height: 60px; }
-    .result-box.valid   { border-color: rgba(31,186,136,0.4);  background: rgba(31,186,136,0.06); }
-    .result-box.invalid { border-color: rgba(255,94,87,0.4);   background: rgba(255,94,87,0.06); }
-    .result-box.pending { border-color: rgba(245,166,35,0.4);  background: rgba(245,166,35,0.06); }
-    .result-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
-    .result-text { font-size: 14px; color: var(--text2); line-height: 1.5; }
-    .result-text strong { color: var(--text); font-weight: 500; display: block; margin-bottom: 3px; }
-
-    /* SECURITY */
-    .security-title { font-size: 11px; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; font-family: var(--mono); margin: 1.5rem 0 0.75rem; }
-    .security-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    @media (max-width: 400px) { .security-grid { grid-template-columns: 1fr; } }
-    .security-card { background: var(--bg3); border: 0.5px solid var(--border); border-radius: 12px; padding: 12px; display: flex; align-items: flex-start; gap: 10px; transition: border-color 0.2s; }
-    .security-card:hover { border-color: var(--border2); }
-    .sec-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-    .sec-name { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
-    .sec-desc { font-size: 11px; color: var(--text2); line-height: 1.5; }
-
-    /* DISCLAIMER */
-    .disclaimer { margin-top: 1.25rem; padding: 12px 14px; background: rgba(255,255,255,0.02); border: 0.5px solid var(--border); border-radius: 10px; font-size: 11px; color: var(--text3); line-height: 1.6; text-align: center; font-style: italic; }
-
     /* FOOTER */
     .footer { text-align: center; margin-top: 2.5rem; font-size: 11px; color: var(--text3); font-family: var(--mono); }
-
     /* LOADER */
     .loader { text-align: center; padding: 3rem; color: var(--text2); font-size: 14px; }
     .loader span { display: inline-block; animation: blink 1.2s step-end infinite; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-
     .demo-badge { display: inline-block; font-size: 10px; background: var(--amber-d); color: var(--amber); border: 0.5px solid rgba(245,166,35,0.2); border-radius: 20px; padding: 2px 8px; margin-left: 6px; font-family: var(--mono); }
 
-    /* HISTORIC */
-    .historic-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    .historic-table th { color: var(--text3); font-weight: 400; padding: 8px 0; border-bottom: 0.5px solid var(--border); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; font-family: var(--mono); text-align: left; }
-    .historic-table th:last-child { text-align: right; }
-    .historic-table td { padding: 10px 0; border-bottom: 0.5px solid var(--border); color: var(--text); font-family: var(--mono); }
-    .historic-table tr:last-child td { border-bottom: none; }
-    .historic-table td:last-child { text-align: right; }
-    .historic-date { color: var(--text2); font-size: 11px; }
-    .historic-trend { font-size: 10px; margin-left: 6px; }
-    .historic-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-    .historic-count { font-size: 11px; color: var(--text3); }
+    /* NEW CALCULATOR */
+    .calc-section { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 20px; padding: 1.5rem; margin-bottom: 1.25rem; }
+    .calc-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; }
+    .calc-icon { width: 38px; height: 38px; border-radius: 12px; background: var(--green-d); border: 0.5px solid rgba(31,186,136,0.3); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .calc-title { font-size: 15px; font-weight: 600; }
+    .calc-rates-mini { font-size: 11px; color: var(--text2); font-family: var(--mono); margin-top: 2px; }
+    .calc-tabs { display: flex; gap: 4px; background: var(--bg3); border-radius: 12px; padding: 4px; margin-bottom: 1.25rem; }
+    .calc-tab { flex: 1; padding: 8px 0; border-radius: 10px; border: none; background: transparent; color: var(--text2); font-size: 13px; font-family: var(--sans); font-weight: 500; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .calc-tab.active { background: var(--bg2); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    .calc-tab .tab-symbol { font-size: 11px; opacity: 0.6; font-family: var(--mono); }
+    .calc-input-group { position: relative; margin-bottom: 8px; }
+    .calc-input-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--mono); margin-bottom: 6px; }
+    .calc-input-box { display: flex; align-items: center; background: var(--bg3); border: 0.5px solid var(--border2); border-radius: 14px; padding: 4px; transition: border-color 0.2s; }
+    .calc-input-box:focus-within { border-color: var(--blue); }
+    .calc-input-box .currency-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; font-family: var(--mono); flex-shrink: 0; margin-left: 4px; }
+    .calc-input-box input { flex: 1; background: transparent; border: none; outline: none; font-size: 26px; font-weight: 600; font-family: var(--mono); color: var(--text); padding: 8px 12px; letter-spacing: -0.02em; }
+    .calc-input-box input::placeholder { color: var(--text3); }
+    .calc-input-box .currency-label { font-size: 14px; color: var(--text2); font-weight: 500; padding-right: 14px; }
+    .calc-swap-btn { display: flex; align-items: center; justify-content: center; margin: -4px auto; position: relative; z-index: 2; width: 40px; height: 40px; border-radius: 50%; background: var(--green); border: 3px solid var(--bg2); color: #fff; font-size: 18px; cursor: pointer; transition: all 0.25s; }
+    .calc-swap-btn:hover { transform: rotate(180deg); background: #25d9a0; }
+    .calc-result-box { background: var(--bg3); border: 0.5px solid var(--border); border-radius: 14px; padding: 4px; }
+    .calc-result-box .currency-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; margin-left: 4px; }
+    .calc-result-box .result-value { flex: 1; font-size: 26px; font-weight: 600; font-family: var(--mono); color: var(--text); padding: 8px 12px; letter-spacing: -0.02em; }
+    .calc-result-box .currency-label { font-size: 14px; color: var(--text2); font-weight: 500; padding-right: 14px; }
+    .calc-result-box { display: flex; align-items: center; }
+    .calc-p2p-row { display: flex; align-items: center; gap: 8px; margin-top: 12px; background: var(--bg3); border: 0.5px solid var(--border); border-radius: 12px; padding: 10px 14px; }
+    .calc-p2p-row .p2p-icon { font-size: 11px; color: var(--amber); font-family: var(--mono); font-weight: 500; }
+    .calc-p2p-row .p2p-label { font-size: 11px; color: var(--text2); flex: 1; }
+    .calc-p2p-row .p2p-value { font-size: 18px; font-weight: 600; font-family: var(--mono); color: var(--text); }
+    .calc-p2p-row .p2p-diff { font-size: 10px; color: var(--green); margin-left: 8px; background: var(--green-d); padding: 2px 8px; border-radius: 20px; font-family: var(--mono); }
+    .calc-bottom-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+    .calc-bottom-card { background: var(--bg3); border-radius: 12px; padding: 12px 14px; border-left: 2px solid; }
+    .calc-bottom-card .cbc-label { font-size: 10px; color: var(--text2); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; display: flex; align-items: center; gap: 4px; margin-bottom: 4px; }
+    .calc-bottom-card .cbc-value { font-size: 20px; font-weight: 600; font-family: var(--mono); color: var(--text); }
+
+    /* CHART */
+    .chart-section { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 20px; padding: 1.5rem; margin-bottom: 1.25rem; }
+    .chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+    .chart-title-row { display: flex; align-items: center; gap: 10px; }
+    .chart-icon { width: 38px; height: 38px; border-radius: 12px; background: var(--purple-d); border: 0.5px solid rgba(155,135,245,0.3); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .chart-title { font-size: 15px; font-weight: 600; }
+    .chart-subtitle { font-size: 11px; color: var(--text2); margin-top: 2px; }
+    .chart-period-btns { display: flex; gap: 2px; background: var(--bg3); border-radius: 10px; padding: 3px; }
+    .chart-period-btn { padding: 5px 12px; border-radius: 8px; border: none; background: transparent; color: var(--text2); font-size: 11px; font-family: var(--mono); font-weight: 500; cursor: pointer; transition: all 0.2s; }
+    .chart-period-btn.active { background: var(--bg2); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+    .chart-legend { display: flex; gap: 16px; justify-content: center; margin-bottom: 12px; flex-wrap: wrap; }
+    .chart-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text2); font-family: var(--mono); }
+    .chart-legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .chart-canvas-wrap { position: relative; width: 100%; height: 280px; }
+    .chart-canvas-wrap canvas { width: 100%; height: 100%; }
+    .chart-tooltip { position: absolute; background: var(--bg4); border: 0.5px solid var(--border2); border-radius: 10px; padding: 8px 12px; font-size: 11px; font-family: var(--mono); color: var(--text); pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 5; white-space: nowrap; }
   </style>
 </head>
 <body>
@@ -257,493 +195,234 @@
     <div class="loader">Consultando APIs<span>...</span></div>
   </div>
 
-  <button class="verify-btn" onclick="openVerifier()">
-    <span class="verify-btn-icon">$</span>
-    Verificar Billete USD · $100 Serie Azul
-    <span class="verify-btn-arrow">→</span>
-  </button>
+
+  <div id="chart-container"></div>
 
   <div class="footer">Datos: ve.dolarapi.com · Actualización automática cada 5 min</div>
 </div>
 
-<!-- MODAL VERIFICADOR -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeVerifier(event)">
-  <div class="modal" id="modal">
-    <div class="modal-header">
-      <div class="modal-title-row">
-        <div class="modal-icon">$</div>
-        <div>
-          <div class="modal-title">Verificador de Serial</div>
-          <div class="modal-sub">Billete de $100 · Serie Azul · Post 2009</div>
-        </div>
-      </div>
-      <button class="modal-close" onclick="closeVerifier()">✕</button>
-    </div>
-
-    <div class="modal-body">
-
-      <div class="field-label">1 · Selecciona la serie del billete</div>
-      <div class="series-grid">
-        <button class="series-btn" data-series="2009"  data-letter="J" onclick="selectSeries(this)">2009<span class="series-letter">J</span></button>
-        <button class="series-btn" data-series="2009A" data-letter="L" onclick="selectSeries(this)">2009A<span class="series-letter">L</span></button>
-        <button class="series-btn" data-series="2013"  data-letter="M" onclick="selectSeries(this)">2013<span class="series-letter">M</span></button>
-        <button class="series-btn" data-series="2017"  data-letter="N" onclick="selectSeries(this)">2017<span class="series-letter">N</span></button>
-        <button class="series-btn" data-series="2017A" data-letter="P" onclick="selectSeries(this)">2017A<span class="series-letter">P</span></button>
-      </div>
-
-      <div class="field-label" style="margin-top:1.25rem;">2 · Ingresa el serial del billete</div>
-      <div class="serial-input-wrap">
-        <input type="text" id="serial-input" class="serial-input" placeholder="Ej: JB12345678A" maxlength="14" oninput="validateSerial()" autocomplete="off" spellcheck="false" />
-        <div class="serial-indicator" id="serial-indicator"></div>
-      </div>
-
-      <div class="result-box" id="result-box">
-        <div class="result-icon" id="result-icon">💡</div>
-        <div class="result-text" id="result-text">Selecciona una serie e ingresa el serial para verificar</div>
-      </div>
-
-      <div class="security-title">Puntos de seguridad · $100 Serie Azul</div>
-      <div class="security-grid">
-        <div class="security-card">
-          <div class="sec-icon" style="background:rgba(74,158,255,0.12);color:var(--blue);">🔔</div>
-          <div class="sec-info">
-            <div class="sec-name">Campana en tintero</div>
-            <div class="sec-desc">Al inclinar el billete, la campana dentro del tintero cambia de color cobre a verde</div>
-          </div>
-        </div>
-        <div class="security-card">
-          <div class="sec-icon" style="background:rgba(155,135,245,0.12);color:var(--purple);">🧵</div>
-          <div class="sec-info">
-            <div class="sec-name">Hilo de seguridad 3D</div>
-            <div class="sec-desc">Hilo azul entretejido con imágenes de campanas y "100" que se mueven en 3D al inclinar</div>
-          </div>
-        </div>
-        <div class="security-card">
-          <div class="sec-icon" style="background:rgba(31,186,136,0.12);color:var(--green);">👤</div>
-          <div class="sec-info">
-            <div class="sec-name">Marca de agua Franklin</div>
-            <div class="sec-desc">Al trasluz aparece el rostro de Benjamin Franklin y el número 100 a ambos lados</div>
-          </div>
-        </div>
-        <div class="security-card">
-          <div class="sec-icon" style="background:rgba(245,166,35,0.12);color:var(--amber);">✨</div>
-          <div class="sec-info">
-            <div class="sec-name">Tinta que cambia de color</div>
-            <div class="sec-desc">El "100" en la esquina inferior derecha cambia de cobre a verde al inclinar</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="disclaimer">
-        Esta herramienta es referencial y no sustituye la verificación profesional.
-        No nos hacemos responsables por la autenticidad de los billetes.
-      </div>
-
-      <div class="historic-section" style="margin-top:2rem;padding-top:1.5rem;border-top:0.5px solid var(--border);">
-        <div class="section-title">Histórico BCV USD</div>
-        <div id="historic-content">
-          <div class="loader" style="padding:1.5rem;font-size:12px;">Cargando histórico<span>...</span></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
 
 <script>
-/* ════════ TASAS ════════ */
-const APIS = {
-  usd: 'https://ve.dolarapi.com/v1/dolares',
-  eur: 'https://ve.dolarapi.com/v1/euros',
-  backup: 'https://pydolarve.org/api/v2/dollar?monitor=all'
-};
-let ratesData = null;
-
-async function tryFetch(url) {
-  const r = await fetch(url, { signal: AbortSignal.timeout(7000) });
-  if (!r.ok) throw new Error('bad');
-  return r.json();
+const APIS={usd:'https://ve.dolarapi.com/v1/dolares',eur:'https://ve.dolarapi.com/v1/euros',hist:'https://ve.dolarapi.com/v1/historicos/dolares',histEur:'https://ve.dolarapi.com/v1/historicos/euros',backup:'https://pydolarve.org/api/v2/dollar?monitor=all'};
+let ratesData=null,calcReversed=false,calcCurrency='usd',historicData=null;
+async function tryFetch(u){const r=await fetch(u,{signal:AbortSignal.timeout(7000)});if(!r.ok)throw new Error('bad');return r.json();}
+const safeNum=v=>{if(v==null)return 0;const p=parseFloat(v);return isNaN(p)?0:p;};
+function parseVeDolar(usd,eur){
+  const gT=d=>((d.nombre||'')+' '+(d.fuente||'')+' '+(d.slug||'')+' '+(d.title||'')+' '+(d.moneda||'')).toLowerCase();
+  const fi=(data,keys)=>data.find(d=>keys.some(k=>gT(d).includes(k)));
+  let bu=fi(usd,['bcv','oficial'])||usd.find(d=>d.moneda==='USD'&&d.fuente==='oficial')||usd.find(d=>d.moneda==='USD');
+  let bn=fi(usd,['paralelo','binance','cripto','usdt'])||usd.find(d=>d.fuente==='paralelo');
+  let be=fi(eur,['bcv','oficial'])||eur.find(d=>d.moneda==='EUR'&&d.fuente==='oficial')||eur.find(d=>d.moneda==='EUR');
+  if(!bu)return null;
+  const gv=o=>safeNum(o.promedio||o.precio||o.usd||o.venta||o.compra);
+  return{bcvUsd:gv(bu),bcvEur:be?gv(be):550.89,binance:bn?gv(bn):null,bcvUsdChg:safeNum(bu.variacion||bu.change||bu.cambio),binanceChg:safeNum(bn?.variacion||bn?.change||bn?.cambio),eurChg:safeNum(be?.variacion||be?.change||be?.cambio)};
 }
-
-function parseVeDolar(usdData, eurData) {
-  // Busca en múltiples campos posibles de la API
-  const getText = (d) => ((d.nombre || '') + ' ' + (d.fuente || '') + ' ' + (d.slug || '') + ' ' + (d.title || '') + ' ' + (d.moneda || '')).toLowerCase();
-  const find = (data, keys) => data.find(d => keys.some(k => getText(d).includes(k)));
-
-  // BCV USD: busca por fuente="oficial"
-  let bcvUsd = find(usdData, ['bcv','oficial','fuente oficial']);
-  if (!bcvUsd) bcvUsd = usdData.find(d => d.moneda === 'USD' && d.fuente === 'oficial');
-  if (!bcvUsd) bcvUsd = usdData.find(d => d.moneda === 'USD');
-
-  // Paralelo USD
-  let binance = find(usdData, ['paralelo','fuente paralelo','binance','cripto','usdt']);
-  if (!binance) binance = usdData.find(d => d.fuente === 'paralelo');
-
-  // BCV EUR
-  let bcvEur = find(eurData, ['bcv','oficial','fuente oficial']);
-  if (!bcvEur) bcvEur = eurData.find(d => d.moneda === 'EUR' && d.fuente === 'oficial');
-  if (!bcvEur) bcvEur = eurData.find(d => d.moneda === 'EUR');
-
-  if (!bcvUsd) {
-    console.error('No se pudo identificar la tasa BCV. Datos USD:', usdData);
-    return null;
-  }
-
-  const safeNum = (val) => {
-    if (val == null) return 0;
-    const parsed = parseFloat(val);
-    return isNaN(parsed) ? 0 : parsed;
-  };
-
-  return {
-    bcvUsd:     safeNum(bcvUsd.promedio || bcvUsd.precio || bcvUsd.usd || bcvUsd.venta || bcvUsd.compra),
-    bcvEur:     bcvEur ? safeNum(bcvEur.promedio || bcvEur.precio || bcvEur.usd || bcvEur.venta) : 550.89,
-    binance:    binance ? safeNum(binance.promedio || binance.precio || binance.usd || binance.venta) : null,
-    bcvUsdChg:  safeNum(bcvUsd.variacion || bcvUsd.change || bcvUsd.cambio),
-    binanceChg: safeNum(binance?.variacion || binance?.change || binance?.cambio),
-    eurChg:     safeNum(bcvEur?.variacion || bcvEur?.change || bcvEur?.cambio),
-  };
+async function loadRates(){
+  const pill=document.getElementById('live-pill'),timeEl=document.getElementById('update-time');
+  pill.className='live-pill loading';timeEl.textContent='Actualizando';
+  let parsed=null,src='';
+  try{const[u,e]=await Promise.all([tryFetch(APIS.usd),tryFetch(APIS.eur)]);if(Array.isArray(u)&&Array.isArray(e)){parsed=parseVeDolar(u,e);src='ve.dolarapi.com';}}catch(e){}
+  if(!parsed){try{const r=await tryFetch(APIS.backup);const a=r?.monitors?Object.values(r.monitors).map(v=>({...v,nombre:v.title||v.key||''})):null;if(a){parsed=parseVeDolar(a,[]);src='pydolarve.org';}}catch(e){}}
+  const isDemo=!parsed;
+  if(isDemo)parsed={bcvUsd:489.55,bcvEur:556.20,binance:638.00,bcvUsdChg:0.15,binanceChg:-0.42,eurChg:0.08};
+  // Try to compute real changes from historic
+  try{await loadHistoricAndComputeChanges(parsed);}catch(e){}
+  ratesData=parsed;renderDashboard(parsed);
+  pill.className='live-pill';timeEl.textContent=new Date().toLocaleTimeString('es-VE',{hour:'2-digit',minute:'2-digit'});
+  const ot=pill.querySelector('.demo-badge');if(ot)ot.remove();
+  if(isDemo){const t=document.createElement('span');t.className='demo-badge';t.textContent='demo';timeEl.after(t);}
+  loadChart();
 }
-
-async function loadRates() {
-  const pill   = document.getElementById('live-pill');
-  const timeEl = document.getElementById('update-time');
-  pill.className = 'live-pill loading';
-  timeEl.textContent = 'Actualizando';
-
-  let parsed = null;
-  let sourceName = '';
-
-  try {
-    // Fetch ambos endpoints en paralelo
-    const [usdRaw, eurRaw] = await Promise.all([
-      tryFetch(APIS.usd),
-      tryFetch(APIS.eur)
-    ]);
-
-    if (Array.isArray(usdRaw) && Array.isArray(eurRaw)) {
-      parsed = parseVeDolar(usdRaw, eurRaw);
-      sourceName = 've.dolarapi.com';
+async function loadHistoricAndComputeChanges(d){
+  try{
+    const data=await tryFetch(APIS.hist);
+    if(!Array.isArray(data)||data.length<2)return;
+    historicData=data;
+    const bcv=data.filter(x=>x.fuente==='oficial').sort((a,b)=>new Date(b.fecha)-new Date(a.fecha));
+    const par=data.filter(x=>x.fuente==='paralelo').sort((a,b)=>new Date(b.fecha)-new Date(a.fecha));
+    if(bcv.length>=2){const cur=safeNum(bcv[0].promedio||bcv[0].precio),prev=safeNum(bcv[1].promedio||bcv[1].precio);if(prev>0)d.bcvUsdChg=((cur-prev)/prev*100);}
+    if(par.length>=2){const cur=safeNum(par[0].promedio||par[0].precio),prev=safeNum(par[1].promedio||par[1].precio);if(prev>0)d.binanceChg=((cur-prev)/prev*100);}
+  }catch(e){console.log('Historic fetch failed',e);}
+  try{
+    const eData=await tryFetch(APIS.histEur);
+    if(Array.isArray(eData)&&eData.length>=2){
+      const bcvE=eData.filter(x=>x.fuente==='oficial').sort((a,b)=>new Date(b.fecha)-new Date(a.fecha));
+      if(bcvE.length>=2){const cur=safeNum(bcvE[0].promedio||bcvE[0].precio),prev=safeNum(bcvE[1].promedio||bcvE[1].precio);if(prev>0)d.eurChg=((cur-prev)/prev*100);}
     }
-  } catch(e) {
-    console.error('Error cargando desde dolarapi:', e);
-  }
+  }catch(e){}
+}
+const fmt=(n,dec=2)=>n!=null?n.toLocaleString('es-VE',{minimumFractionDigits:dec,maximumFractionDigits:4}):'—';
+const cls=v=>v>0.001?'up':v<-0.001?'down':'flat';
+const arrow=v=>v>0.001?'▲ ':v<-0.001?'▼ ':'';
 
-  // Backup: solo intenta con pydolarve si falló dolarapi
-  if (!parsed) {
-    try {
-      const raw = await tryFetch(APIS.backup);
-      const arr = raw?.monitors ? Object.values(raw.monitors).map(v => ({...v, nombre: v.title||v.key||''})) : null;
-      if (arr) {
-        parsed = parseVeDolar(arr, []); // EUR no disponible en backup
-        sourceName = 'pydolarve.org';
-      }
-    } catch(e) {}
-  }
-
-  const isDemo = !parsed;
-  if (isDemo) parsed = { bcvUsd: 474.05, bcvEur: 550.89, binance: 657.50, bcvUsdChg: 0.04, binanceChg: -0.59, eurChg: 0.10 };
-
-  ratesData = parsed;
-  renderDashboard(parsed);
-
-  const hm = new Date().toLocaleTimeString('es-VE', {hour:'2-digit', minute:'2-digit'});
-  pill.className = 'live-pill';
-  timeEl.textContent = hm;
-  const oldTag = pill.querySelector('.demo-badge');
-  if (oldTag) oldTag.remove();
-  if (isDemo) {
-    const tag = document.createElement('span');
-    tag.className = 'demo-badge'; tag.textContent = 'demo';
-    timeEl.after(tag);
-  }
-
-  // Debug: ver datos en consola
-  console.log('Fuente:', isDemo ? 'DEMO' : sourceName, 'Datos:', parsed);
+function renderDashboard(d){
+  const spread=d.binance?((d.binance-d.bcvUsd)/d.bcvUsd*100):null;
+  const spreadDif=d.binance?(d.binance-d.bcvUsd):null;
+  const avg=d.binance?(d.bcvUsd*0.5+d.binance*0.5):d.bcvUsd;
+  const maxRate=Math.max(d.bcvUsd,d.bcvEur||0,d.binance||0,avg);
+  document.getElementById('main-content').innerHTML=`
+    <div class="cards-grid">
+      <div class="card accent-blue"><div class="card-icon">USD · BCV</div><div class="card-value">${fmt(d.bcvUsd)}<span class="card-unit">Bs</span></div><div class="card-change ${cls(d.bcvUsdChg)}">${arrow(d.bcvUsdChg)}${Math.abs(d.bcvUsdChg).toFixed(2)}%</div><span class="card-badge badge-blue">Oficial</span></div>
+      <div class="card accent-purple"><div class="card-icon">EUR · BCV</div><div class="card-value">${fmt(d.bcvEur)}<span class="card-unit">Bs</span></div><div class="card-change ${cls(d.eurChg)}">${arrow(d.eurChg)}${Math.abs(d.eurChg).toFixed(2)}%</div><span class="card-badge badge-purple">Oficial</span></div>
+      ${d.binance?`<div class="card accent-green"><div class="card-icon">USDT · Paralelo</div><div class="card-value">${fmt(d.binance)}<span class="card-unit">Bs</span></div><div class="card-change ${cls(d.binanceChg)}">${arrow(d.binanceChg)}${Math.abs(d.binanceChg).toFixed(2)}%</div><span class="card-badge badge-amber">Paralelo</span></div>`:``}
+      <div class="card accent-amber"><div class="card-icon">Promedio</div><div class="card-value">${fmt(avg)}<span class="card-unit">Bs</span></div><div class="card-change flat">ponderado</div><span class="card-badge badge-amber">Mixto</span></div>
+    </div>
+    ${spread!=null?`<div class="spread-row"><div class="spread-card"><div><div class="spread-label">Brecha BCV vs Paralelo</div><div class="spread-sub">paralelo sobre tasa oficial</div></div><div style="text-align:right"><div class="spread-pct">+${spread.toFixed(2)}%</div><div class="spread-diff">Dif: ${fmt(spreadDif)} Bs</div></div></div></div>`:``}
+    <div class="calc-section" id="calc-section">
+      <div class="calc-header"><div class="calc-icon">💱</div><div><div class="calc-title">Calculadora</div><div class="calc-rates-mini">🏛 BCV: ${fmt(d.bcvUsd)} · ₿ P2P: ${d.binance?fmt(d.binance):'—'}</div></div></div>
+      <div class="calc-tabs">
+        <button class="calc-tab active" onclick="setCalcCurrency('usd',this)"><span class="tab-symbol">$</span> USD</button>
+        <button class="calc-tab" onclick="setCalcCurrency('eur',this)"><span class="tab-symbol">€</span> EUR</button>
+        ${d.binance?`<button class="calc-tab" onclick="setCalcCurrency('usdt',this)"><span class="tab-symbol">₿</span> USDT</button>`:``}
+      </div>
+      <div class="calc-input-label" id="calc-from-label">DÓLARES (USD)</div>
+      <div class="calc-input-group">
+        <div class="calc-input-box"><div class="currency-icon" id="calc-from-icon" style="background:var(--blue-d);color:var(--blue);">$</div><input type="number" id="calc-amount" value="1" min="0" step="any" oninput="recalc()" placeholder="0"/><span class="currency-label" id="calc-from-unit">USD</span></div>
+      </div>
+      <button class="calc-swap-btn" onclick="swapCalc()">⇅</button>
+      <div class="calc-input-label">BOLÍVARES (BS) — TASA BCV</div>
+      <div class="calc-result-box"><div class="currency-icon" style="background:var(--green-d);color:var(--green);">Bs</div><div class="result-value" id="calc-output">${fmt(d.bcvUsd)}</div><span class="currency-label">Bs</span></div>
+      ${d.binance?`<div class="calc-p2p-row"><span class="p2p-icon">₿</span><span class="p2p-label" id="p2p-label">1,00 $ EN P2P</span><span class="p2p-value" id="p2p-value">${fmt(d.binance)}</span><span class="p2p-diff" id="p2p-diff">+${fmt(spreadDif)} Bs</span></div>`:``}
+      <div class="calc-bottom-cards">
+        <div class="calc-bottom-card" style="border-color:var(--blue);"><div class="cbc-label">🏛 BCV ${calcCurrency.toUpperCase()}</div><div class="cbc-value" id="cbc-bcv">${fmt(d.bcvUsd)} <span style="font-size:12px;color:var(--text2)">Bs</span></div></div>
+        <div class="calc-bottom-card" style="border-color:var(--amber);"><div class="cbc-label">₿ P2P USDT</div><div class="cbc-value" id="cbc-p2p">${d.binance?fmt(d.binance):'—'} <span style="font-size:12px;color:var(--text2)">Bs</span></div></div>
+      </div>
+    </div>
+    <div class="section"><div class="section-title">Comparativa de tasas</div><div class="bars">
+      <div class="bar-row"><span class="bar-label">BCV USD</span><div class="bar-track"><div class="bar-fill" style="width:${(d.bcvUsd/maxRate*100).toFixed(1)}%;background:var(--blue);"></div></div><span class="bar-val">${fmt(d.bcvUsd)} Bs</span></div>
+      <div class="bar-row"><span class="bar-label">BCV EUR</span><div class="bar-track"><div class="bar-fill" style="width:${(d.bcvEur/maxRate*100).toFixed(1)}%;background:var(--purple);"></div></div><span class="bar-val">${fmt(d.bcvEur)} Bs</span></div>
+      ${d.binance?`<div class="bar-row"><span class="bar-label">Paralelo</span><div class="bar-track"><div class="bar-fill" style="width:${(d.binance/maxRate*100).toFixed(1)}%;background:var(--green);"></div></div><span class="bar-val">${fmt(d.binance)} Bs</span></div>`:``}
+      <div class="bar-row"><span class="bar-label">Promedio</span><div class="bar-track"><div class="bar-fill" style="width:${(avg/maxRate*100).toFixed(1)}%;background:var(--amber);"></div></div><span class="bar-val">${fmt(avg)} Bs</span></div>
+    </div></div>`;
+  window._rd=d;recalc();
 }
 
-const fmt   = (n, dec=2) => n != null ? n.toLocaleString('es-VE', {minimumFractionDigits:dec, maximumFractionDigits:4}) : '—';
-const cls   = v => v > 0 ? 'up' : v < 0 ? 'down' : 'flat';
-const arrow = v => v > 0 ? '▲ ' : v < 0 ? '▼ ' : '';
-
-function renderDashboard(d) {
-  const spread    = d.binance ? ((d.binance - d.bcvUsd) / d.bcvUsd * 100) : null;
-  const spreadDif = d.binance ? (d.binance - d.bcvUsd) : null;
-  const avg       = d.binance ? (d.bcvUsd * 0.5 + d.binance * 0.5) : d.bcvUsd;
-  const maxRate   = Math.max(d.bcvUsd, d.bcvEur||0, d.binance||0, avg);
-
-  document.getElementById('main-content').innerHTML = `
-    <div class="cards-grid">
-      <div class="card accent-blue">
-        <div class="card-icon">USD · BCV</div>
-        <div class="card-value">${fmt(d.bcvUsd)}<span class="card-unit">Bs</span></div>
-        <div class="card-change ${cls(d.bcvUsdChg)}">${arrow(d.bcvUsdChg)}${Math.abs(d.bcvUsdChg).toFixed(2)}%</div>
-        <span class="card-badge badge-blue">Oficial</span>
-      </div>
-      <div class="card accent-purple">
-        <div class="card-icon">EUR · BCV</div>
-        <div class="card-value">${fmt(d.bcvEur)}<span class="card-unit">Bs</span></div>
-        <div class="card-change ${cls(d.eurChg)}">${arrow(d.eurChg)}${Math.abs(d.eurChg).toFixed(2)}%</div>
-        <span class="card-badge badge-purple">Oficial</span>
-      </div>
-      ${d.binance ? `<div class="card accent-green">
-        <div class="card-icon">USDT · Paralelo</div>
-        <div class="card-value">${fmt(d.binance)}<span class="card-unit">Bs</span></div>
-        <div class="card-change ${cls(d.binanceChg)}">${arrow(d.binanceChg)}${Math.abs(d.binanceChg).toFixed(2)}%</div>
-        <span class="card-badge badge-amber">Paralelo</span>
-      </div>` : ''}
-      <div class="card accent-amber">
-        <div class="card-icon">Promedio</div>
-        <div class="card-value">${fmt(avg)}<span class="card-unit">Bs</span></div>
-        <div class="card-change flat">ponderado</div>
-        <span class="card-badge badge-amber">Mixto</span>
-      </div>
-    </div>
-
-    ${spread != null ? `<div class="spread-row">
-      <div class="spread-card">
-        <div>
-          <div class="spread-label">Brecha BCV vs Paralelo</div>
-          <div class="spread-sub">paralelo sobre tasa oficial</div>
-        </div>
-        <div style="text-align:right">
-          <div class="spread-pct">+${spread.toFixed(2)}%</div>
-          <div class="spread-diff">Dif: ${fmt(spreadDif)} Bs</div>
-        </div>
-      </div>
-    </div>` : ''}
-
-    <div class="section">
-      <div class="section-title">Calculadora</div>
-      <div class="calc-grid">
-        <input type="number" id="calc-amount" value="100" min="0" oninput="recalc()" placeholder="Monto" />
-        <select id="calc-from" onchange="recalc()">
-          <option value="usd">USD → Bs</option>
-          <option value="eur">EUR → Bs</option>
-          <option value="bs_usd">Bs → USD</option>
-          <option value="bs_eur">Bs → EUR</option>
-        </select>
-        <select id="calc-rate" onchange="recalc()">
-          <option value="bcv">Tasa BCV</option>
-          ${d.binance ? '<option value="binance">Paralelo</option>' : ''}
-          <option value="avg">Promedio</option>
-        </select>
-      </div>
-      <div class="calc-result">
-        <span class="calc-result-label" id="calc-label">Resultado</span>
-        <span class="calc-result-val" id="calc-output">—</span>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Comparativa de tasas</div>
-      <div class="bars">
-        <div class="bar-row">
-          <span class="bar-label">BCV USD</span>
-          <div class="bar-track"><div class="bar-fill" style="width:${(d.bcvUsd/maxRate*100).toFixed(1)}%;background:var(--blue);"></div></div>
-          <span class="bar-val">${fmt(d.bcvUsd)} Bs</span>
-        </div>
-        <div class="bar-row">
-          <span class="bar-label">BCV EUR</span>
-          <div class="bar-track"><div class="bar-fill" style="width:${(d.bcvEur/maxRate*100).toFixed(1)}%;background:var(--purple);"></div></div>
-          <span class="bar-val">${fmt(d.bcvEur)} Bs</span>
-        </div>
-        ${d.binance ? `<div class="bar-row">
-          <span class="bar-label">Paralelo</span>
-          <div class="bar-track"><div class="bar-fill" style="width:${(d.binance/maxRate*100).toFixed(1)}%;background:var(--green);"></div></div>
-          <span class="bar-val">${fmt(d.binance)} Bs</span>
-        </div>` : ''}
-        <div class="bar-row">
-          <span class="bar-label">Promedio</span>
-          <div class="bar-track"><div class="bar-fill" style="width:${(avg/maxRate*100).toFixed(1)}%;background:var(--amber);"></div></div>
-          <span class="bar-val">${fmt(avg)} Bs</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Resumen de tasas</div>
-      <table class="rates-table">
-        <thead><tr><th>Moneda</th><th>Fuente</th><th>Tasa</th></tr></thead>
-        <tbody>
-          <tr><td>USD</td><td><span class="src">BCV oficial</span></td><td>${fmt(d.bcvUsd)} Bs</td></tr>
-          <tr><td>EUR</td><td><span class="src">BCV oficial</span></td><td>${fmt(d.bcvEur)} Bs</td></tr>
-          ${d.binance ? `<tr><td>USDT</td><td><span class="src">Paralelo</span></td><td>${fmt(d.binance)} Bs</td></tr>` : ''}
-          <tr><td>Promedio</td><td><span class="src">calculado</span></td><td>${fmt(avg)} Bs</td></tr>
-          ${spread ? `<tr><td>Brecha</td><td><span class="src">vs BCV</span></td><td class="up">+${spread.toFixed(2)}%</td></tr>` : ''}
-        </tbody>
-      </table>
-    </div>`;
-
-  window._rd = d;
+function setCalcCurrency(c,btn){
+  calcCurrency=c;calcReversed=false;
+  document.querySelectorAll('.calc-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const labels={usd:['DÓLARES (USD)','$','USD','var(--blue-d)','var(--blue)'],eur:['EUROS (EUR)','€','EUR','var(--purple-d)','var(--purple)'],usdt:['USDT (TETHER)','₿','USDT','var(--amber-d)','var(--amber)']};
+  const l=labels[c];
+  document.getElementById('calc-from-label').textContent=l[0];
+  document.getElementById('calc-from-icon').textContent=l[1];
+  document.getElementById('calc-from-icon').style.background=l[3];
+  document.getElementById('calc-from-icon').style.color=l[4];
+  document.getElementById('calc-from-unit').textContent=l[2];
   recalc();
 }
-
-function recalc() {
-  const d = window._rd; if (!d) return;
-  const amount = parseFloat(document.getElementById('calc-amount')?.value) || 0;
-  const from   = document.getElementById('calc-from')?.value;
-  const rk     = document.getElementById('calc-rate')?.value;
-  let usdRate  = rk === 'binance' ? d.binance : rk === 'avg' ? (d.bcvUsd + (d.binance||d.bcvUsd))/2 : d.bcvUsd;
-  let eurRate  = d.bcvEur || usdRate * 1.12;
-  let result, label, toBs;
-  if      (from === 'usd')    { result = amount * usdRate; label = `${amount.toLocaleString('es-VE')} USD → Bs`; toBs = true; }
-  else if (from === 'eur')    { result = amount * eurRate; label = `${amount.toLocaleString('es-VE')} EUR → Bs`; toBs = true; }
-  else if (from === 'bs_usd') { result = amount / usdRate; label = `${amount.toLocaleString('es-VE')} Bs → USD`; toBs = false; }
-  else                         { result = amount / eurRate; label = `${amount.toLocaleString('es-VE')} Bs → EUR`; toBs = false; }
-  document.getElementById('calc-label').textContent  = label;
-  document.getElementById('calc-output').textContent = result.toLocaleString('es-VE', {
-    minimumFractionDigits: toBs ? 2 : 4,
-    maximumFractionDigits: toBs ? 2 : 4
-  });
-}
-
-loadRates();
-setInterval(loadRates, 5 * 60 * 1000);
-
-/* ════════ VERIFICADOR ════════ */
-let selectedLetter = null;
-let selectedSeries = null;
-
-function openVerifier() {
-  document.getElementById('modal-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeVerifier(e) {
-  if (e && e.target !== document.getElementById('modal-overlay')) return;
-  document.getElementById('modal-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function selectSeries(btn) {
-  document.querySelectorAll('.series-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  selectedLetter = btn.dataset.letter;
-  selectedSeries = btn.dataset.series;
-  validateSerial();
-  document.getElementById('serial-input').focus();
-}
-
-function validateSerial() {
-  const raw    = document.getElementById('serial-input').value.trim().toUpperCase();
-  const indEl  = document.getElementById('serial-indicator');
-  const boxEl  = document.getElementById('result-box');
-  const iconEl = document.getElementById('result-icon');
-  const textEl = document.getElementById('result-text');
-
-  if (!raw) {
-    indEl.textContent = '';
-    boxEl.className = 'result-box';
-    iconEl.textContent = '💡';
-    textEl.innerHTML = 'Selecciona una serie e ingresa el serial para verificar';
-    return;
-  }
-
-  const firstLetter = raw.charAt(0);
-  indEl.textContent = firstLetter;
-
-  if (!selectedLetter) {
-    boxEl.className = 'result-box pending';
-    iconEl.textContent = '⚠️';
-    textEl.innerHTML = '<strong>Selecciona la serie primero</strong>Debes elegir el año de la serie del billete arriba';
-    return;
-  }
-
-  const isValid   = firstLetter === selectedLetter;
-  const hasLength = raw.length >= 10;
-
-  if (isValid && hasLength) {
-    boxEl.className = 'result-box valid';
-    iconEl.textContent = '✅';
-    textEl.innerHTML = `<strong>Serial coherente con Serie ${selectedSeries}</strong>La letra "${firstLetter}" corresponde correctamente a la Serie ${selectedSeries}`;
-  } else if (isValid && !hasLength) {
-    boxEl.className = 'result-box pending';
-    iconEl.textContent = '🔄';
-    textEl.innerHTML = `<strong>Letra correcta — sigue escribiendo</strong>Serie ${selectedSeries} empieza con "${selectedLetter}" · Ingresa el serial completo`;
-  } else {
-    boxEl.className = 'result-box invalid';
-    iconEl.textContent = '❌';
-    textEl.innerHTML = `<strong>Serial NO coincide con Serie ${selectedSeries}</strong>La Serie ${selectedSeries} debe empezar con "<strong>${selectedLetter}</strong>", pero el serial ingresado empieza con "${firstLetter}"`;
-  }
-}
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    document.getElementById('modal-overlay').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-});
-
-/* ════════ HISTÓRICO ════════ */
-async function loadHistoric() {
-  const container = document.getElementById('historic-content');
-  if (!container) return;
-
-  try {
-    const data = await tryFetch('https://ve.dolarapi.com/v1/historicos/dolares');
-    if (!Array.isArray(data) || data.length === 0) {
-      container.innerHTML = '<div style="padding:1rem;color:var(--text3);font-size:12px;">No hay datos disponibles</div>';
-      return;
+function swapCalc(){calcReversed=!calcReversed;const btn=document.querySelector('.calc-swap-btn');btn.style.transform=calcReversed?'rotate(180deg)':'';recalc();}
+function recalc(){
+  const d=window._rd;if(!d)return;
+  const amount=parseFloat(document.getElementById('calc-amount')?.value)||0;
+  let rate=calcCurrency==='eur'?d.bcvEur:calcCurrency==='usdt'?(d.binance||d.bcvUsd):d.bcvUsd;
+  let result,fromLabel,toLabel;
+  if(!calcReversed){result=amount*rate;fromLabel=amount.toLocaleString('es-VE');toLabel='Bs';}
+  else{result=amount/rate;toLabel=calcCurrency.toUpperCase();}
+  const outEl=document.getElementById('calc-output');
+  if(outEl)outEl.textContent=result.toLocaleString('es-VE',{minimumFractionDigits:calcReversed?4:2,maximumFractionDigits:calcReversed?4:2});
+  // P2P row
+  const p2pVal=document.getElementById('p2p-value'),p2pLabel=document.getElementById('p2p-label'),p2pDiff=document.getElementById('p2p-diff');
+  if(p2pVal&&d.binance){
+    const p2pRate=d.binance;
+    if(!calcReversed){
+      const p2pRes=amount*p2pRate;p2pVal.textContent=fmt(p2pRes);
+      p2pLabel.textContent=`${amount.toLocaleString('es-VE',{maximumFractionDigits:2})} $ EN P2P`;
+      const diff=p2pRes-result;p2pDiff.textContent=`+${fmt(diff)} Bs`;
+    }else{
+      const p2pRes=amount/p2pRate;p2pVal.textContent=p2pRes.toFixed(4);
+      p2pLabel.textContent=`${amount.toLocaleString('es-VE',{maximumFractionDigits:2})} Bs EN P2P`;
+      const diff=result-p2pRes;p2pDiff.textContent=`+${diff.toFixed(4)} $`;
     }
-
-    // Filtrar solo los del BCV (oficial) y ordenar por fecha descendente
-    const bcvData = data
-      .filter(d => d.fuente === 'oficial')
-      .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-      .slice(0, 30); // Últimos 30 registros
-
-    if (bcvData.length === 0) {
-      container.innerHTML = '<div style="padding:1rem;color:var(--text3);font-size:12px;">No hay datos BCV disponibles</div>';
-      return;
-    }
-
-    // Calcular tendencia (diferencia con el día anterior)
-    const rows = bcvData.map((d, i) => {
-      const current = d.promedio;
-      const prev = bcvData[i + 1]?.promedio || current;
-      const diff = current - prev;
-      const diffPct = prev ? (diff / prev * 100) : 0;
-      const trend = diff > 0.001 ? 'up' : diff < -0.001 ? 'down' : 'flat';
-      const trendIcon = diff > 0.001 ? '▲' : diff < -0.001 ? '▼' : '—';
-
-      // Formatear fecha: "05 Abr 2025"
-      const dateObj = new Date(d.fecha);
-      const dateStr = dateObj.toLocaleDateString('es-VE', { day: '2-digit', month: 'short', year: 'numeric' });
-
-      return `
-        <tr>
-          <td><span class="historic-date">${dateStr}</span></td>
-          <td>${current.toFixed(2)} Bs<span class="historic-trend ${trend}">${trendIcon} ${Math.abs(diffPct).toFixed(2)}%</span></td>
-        </tr>
-      `;
-    }).join('');
-
-    container.innerHTML = `
-      <div class="historic-header">
-        <span class="historic-count">Últimos ${bcvData.length} registros · BCV Oficial</span>
-      </div>
-      <div style="max-height:300px;overflow-y:auto;">
-        <table class="historic-table">
-          <thead>
-            <tr><th>Fecha</th><th>Tasa</th></tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    `;
-  } catch (e) {
-    console.error('Error cargando histórico:', e);
-    container.innerHTML = '<div style="padding:1rem;color:var(--text3);font-size:12px;">Error al cargar el histórico</div>';
+  }
+  // Bottom cards
+  const cbcBcv=document.getElementById('cbc-bcv'),cbcP2p=document.getElementById('cbc-p2p');
+  if(cbcBcv){
+    const bcvR=calcCurrency==='eur'?d.bcvEur:d.bcvUsd;
+    if(!calcReversed)cbcBcv.innerHTML=`${fmt(amount*bcvR)} <span style="font-size:12px;color:var(--text2)">Bs</span>`;
+    else cbcBcv.innerHTML=`${(amount/bcvR).toFixed(4)} <span style="font-size:12px;color:var(--text2)">${calcCurrency.toUpperCase()}</span>`;
+  }
+  if(cbcP2p&&d.binance){
+    if(!calcReversed)cbcP2p.innerHTML=`${fmt(amount*d.binance)} <span style="font-size:12px;color:var(--text2)">Bs</span>`;
+    else cbcP2p.innerHTML=`${(amount/d.binance).toFixed(4)} <span style="font-size:12px;color:var(--text2)">USDT</span>`;
   }
 }
+loadRates();setInterval(loadRates,5*60*1000);
 
-// Cargar histórico cuando se abre el modal
-const originalOpenVerifier = openVerifier;
-openVerifier = function() {
-  originalOpenVerifier();
-  loadHistoric();
-};
+/* ════════ CHART ════════ */
+let chartPeriod=30;
+async function loadChart(){
+  const container=document.getElementById('chart-container');if(!container)return;
+  container.innerHTML=`<div class="chart-section"><div class="chart-header"><div class="chart-title-row"><div class="chart-icon">📈</div><div><div class="chart-title">Evolución de Tasas</div><div class="chart-subtitle">Histórico de cotizaciones en el tiempo</div></div></div><div class="chart-period-btns"><button class="chart-period-btn ${chartPeriod===7?'active':''}" onclick="setChartPeriod(7)">7D</button><button class="chart-period-btn ${chartPeriod===30?'active':''}" onclick="setChartPeriod(30)">30D</button><button class="chart-period-btn ${chartPeriod===90?'active':''}" onclick="setChartPeriod(90)">3M</button></div></div><div class="chart-legend"><div class="chart-legend-item"><div class="chart-legend-dot" style="background:var(--blue)"></div>BCV USD</div><div class="chart-legend-item"><div class="chart-legend-dot" style="background:var(--purple)"></div>BCV EUR</div><div class="chart-legend-item"><div class="chart-legend-dot" style="background:var(--amber)"></div>PARALELO</div></div><div class="chart-canvas-wrap"><canvas id="rates-chart"></canvas><div class="chart-tooltip" id="chart-tooltip"></div></div></div>`;
+  try{
+    let allData=historicData;
+    if(!allData){allData=await tryFetch(APIS.hist);historicData=allData;}
+    if(!Array.isArray(allData)||allData.length===0)return;
+    let eurData=[];try{eurData=await tryFetch(APIS.histEur);}catch(e){}
+    drawChart(allData,eurData);
+  }catch(e){console.error('Chart error:',e);}
+}
+function setChartPeriod(p){chartPeriod=p;loadChart();}
+function drawChart(data,eurData){
+  const canvas=document.getElementById('rates-chart');if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const dpr=window.devicePixelRatio||1;
+  const rect=canvas.parentElement.getBoundingClientRect();
+  canvas.width=rect.width*dpr;canvas.height=rect.height*dpr;
+  ctx.scale(dpr,dpr);
+  const W=rect.width,H=rect.height;
+  const pad={t:20,r:20,b:40,l:55};
+  const cw=W-pad.l-pad.r,ch=H-pad.t-pad.b;
+  // Process data
+  const cutoff=new Date();cutoff.setDate(cutoff.getDate()-chartPeriod);
+  const bcvArr=data.filter(d=>d.fuente==='oficial'&&new Date(d.fecha)>=cutoff).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha)).map(d=>({date:new Date(d.fecha),val:safeNum(d.promedio||d.precio)}));
+  const parArr=data.filter(d=>d.fuente==='paralelo'&&new Date(d.fecha)>=cutoff).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha)).map(d=>({date:new Date(d.fecha),val:safeNum(d.promedio||d.precio)}));
+  const eurArr=(Array.isArray(eurData)?eurData:[]).filter(d=>d.fuente==='oficial'&&new Date(d.fecha)>=cutoff).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha)).map(d=>({date:new Date(d.fecha),val:safeNum(d.promedio||d.precio)}));
+  const allPts=[...bcvArr,...parArr,...eurArr];
+  if(allPts.length===0)return;
+  const minDate=Math.min(...allPts.map(p=>p.date.getTime()));
+  const maxDate=Math.max(...allPts.map(p=>p.date.getTime()));
+  const allVals=allPts.map(p=>p.val).filter(v=>v>0);
+  let minVal=Math.min(...allVals)*0.98,maxVal=Math.max(...allVals)*1.02;
+  if(maxVal-minVal<10){minVal-=10;maxVal+=10;}
+  const xScale=v=>pad.l+(maxDate===minDate?cw/2:((v-minDate)/(maxDate-minDate))*cw);
+  const yScale=v=>pad.t+ch-(((v-minVal)/(maxVal-minVal))*ch);
+  // Grid
+  ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.lineWidth=0.5;
+  const ySteps=5;for(let i=0;i<=ySteps;i++){const y=pad.t+(ch/ySteps)*i;const val=maxVal-((maxVal-minVal)/ySteps)*i;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();ctx.fillStyle='#555';ctx.font='10px JetBrains Mono';ctx.textAlign='right';ctx.fillText(val.toFixed(0),pad.l-8,y+4);}
+  // X labels
+  const dates=bcvArr.length>0?bcvArr:parArr;
+  const step=Math.max(1,Math.floor(dates.length/5));
+  ctx.fillStyle='#555';ctx.font='10px JetBrains Mono';ctx.textAlign='center';
+  for(let i=0;i<dates.length;i+=step){const x=xScale(dates[i].date.getTime());const label=dates[i].date.toLocaleDateString('es-VE',{day:'numeric',month:'short'});ctx.fillText(label,x,H-pad.b+20);}
+  // Draw lines
+  function drawLine(arr,color,width){
+    if(arr.length<2)return;ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineJoin='round';ctx.lineCap='round';
+    arr.forEach((p,i)=>{const x=xScale(p.date.getTime()),y=yScale(p.val);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});ctx.stroke();
+    // Gradient fill
+    const grad=ctx.createLinearGradient(0,pad.t,0,pad.t+ch);const c=color;grad.addColorStop(0,c.replace(')',',0.15)').replace('rgb','rgba'));grad.addColorStop(1,c.replace(')',',0)').replace('rgb','rgba'));
+    ctx.fillStyle=grad;ctx.lineTo(xScale(arr[arr.length-1].date.getTime()),pad.t+ch);ctx.lineTo(xScale(arr[0].date.getTime()),pad.t+ch);ctx.closePath();ctx.fill();
+  }
+  drawLine(bcvArr,'rgb(74,158,255)',2.5);
+  drawLine(eurArr,'rgb(155,135,245)',2);
+  drawLine(parArr,'rgb(245,166,35)',2);
+  // Tooltip on hover
+  canvas.onmousemove=function(e){
+    const r=canvas.getBoundingClientRect();const mx=e.clientX-r.left;
+    const tooltip=document.getElementById('chart-tooltip');if(!tooltip)return;
+    const dateAtX=minDate+((mx-pad.l)/cw)*(maxDate-minDate);
+    const findNearest=(arr)=>{if(!arr.length)return null;let best=arr[0];arr.forEach(p=>{if(Math.abs(p.date.getTime()-dateAtX)<Math.abs(best.date.getTime()-dateAtX))best=p;});return best;};
+    const nb=findNearest(bcvArr),ne=findNearest(eurArr),np=findNearest(parArr);
+    const d=nb||ne||np;if(!d)return;
+    const dateStr=d.date.toLocaleDateString('es-VE',{day:'numeric',month:'short',year:'numeric'});
+    let html=`<strong>${dateStr}</strong><br>`;
+    if(nb)html+=`<span style="color:#4a9eff">BCV: ${nb.val.toFixed(2)}</span><br>`;
+    if(ne)html+=`<span style="color:#9b87f5">EUR: ${ne.val.toFixed(2)}</span><br>`;
+    if(np)html+=`<span style="color:#f5a623">P2P: ${np.val.toFixed(2)}</span>`;
+    tooltip.innerHTML=html;tooltip.style.opacity='1';
+    tooltip.style.left=Math.min(mx+10,W-140)+'px';tooltip.style.top='10px';
+  };
+  canvas.onmouseleave=function(){const t=document.getElementById('chart-tooltip');if(t)t.style.opacity='0';};
+}
 </script>
 </body>
 </html>
